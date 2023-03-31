@@ -38,28 +38,52 @@ add_filter('woocommerce_add_cart_item_data', 'digicalculator_add_cart_item_data'
 
 
 
-$dc_gl_options = getOptions();
-//This adds the variables to the shoppingcart page visualy
-function digicalculator_add_variables_to_cart($item_data, $cart_item_data){
-    if( isset($cart_item_data['digicalculator_product']) ){
-        if( $cart_item_data['digicalculator_product'] ){
-            // $item_data = array_merge($item_data,cart_item_data_to_obj($cart_item_data));
-            // $item_data[] = [
-            //     'key' => __( "dc_connect-product_keys", 'digicalculator' ),
-            //     'value'=> json_encode( cart_item_data_to_obj($cart_item_data) )
-            // ];
+function digicalculator_woocommerce_cart_item_name($item_name, $cart_item, $cart_item_key) {
+    if( !is_cart() || (!array_key_exists( 'digicalculator_product', $cart_item )))
+        return $item_name;
 
+    if (isset($cart_item['digicalculator_product'])) {
+        $cart_item_set = cart_item_data_to_obj($cart_item);
+        $count_keys = count($cart_item_set);
 
-            $item_data[] = [
-                'key' => __( "Samenstelling", 'digicalculator' ),
-                'value'=> cart_obj_to_string( cart_item_data_to_obj($cart_item_data) )
-            ];
+        $item_name .= '<span class="custom-field-short"><br>';
+        foreach (array_slice($cart_item_set, 0, 2) as $product_key) {
+            $item_name .= $product_key['key'] . ' - ' . $product_key['value'] . '<br/>';
+        }
+        if ($count_keys > 2) {
+            $item_name .= '<a href="#" class="show-or-hide">Alle opties weergeven</a>';
+        }
+        $item_name .= '</span>';
+
+        if ($count_keys > 2) {
+            $item_name .= '<br><span class="custom-fields hide">';
+            foreach ($cart_item_set as $product_key) {
+                $item_name .= $product_key['key'] . ' - ' . $product_key['value'] . '<br/>';
+            }
+            $item_name .= '<a href="#" class="show-or-hide">Opties verbergen</a><br>';
+            $item_name .= '</span>';
         }
     }
-    // ci_log(json_encode($options)); 
-    return $item_data;
+
+    return $item_name;
 }
-add_action( 'woocommerce_get_item_data', 'digicalculator_add_variables_to_cart', 10, 4 );
+add_filter( 'woocommerce_cart_item_name', 'digicalculator_woocommerce_cart_item_name', 10, 3 );
+
+$dc_gl_options = getOptions();
+//This adds the variables to the shoppingcart page visualy
+// function digicalculator_add_variables_to_cart($item_data, $cart_item_data){
+//     if( isset($cart_item_data['digicalculator_product']) ){
+//         if( $cart_item_data['digicalculator_product'] ){
+//             $item_data[] = [
+//                 'key' => __( "Samenstelling", 'digicalculator' ),
+//                 'value'=> cart_obj_to_string( cart_item_data_to_obj($cart_item_data) )
+//             ];
+//         }
+//     }
+//     // ci_log(json_encode($options)); 
+//     return $item_data;
+// }
+// add_action( 'woocommerce_get_item_data', 'digicalculator_add_variables_to_cart', 10, 4 );
 
 //This sets the price in the shoppingcart
 function digicalculator_set_price($cart_object){
