@@ -1,5 +1,4 @@
 var gettingPrices;
-console.log(dc_ajax);
 jQuery(document).ready(function ($) {
     $('#dc-form [name="papertype"], #dc-form [name="papertype_cover"]').change(function (e) {
         $dc.setWeights($(e.target).find('option:selected').attr('weights'), e)
@@ -25,7 +24,6 @@ jQuery(document).ready(function ($) {
             $dc.priceSelected();
 
             $dc.getPrices(function (resp) {
-                console.log(resp)
                 $('#dc-prices').html(resp);
                 $('#dc-prices tr td').click(function (e) {
                     $('#dc-prices .selected').removeClass('selected')
@@ -100,11 +98,9 @@ jQuery(document).ready(function ($) {
             }
 
             localStorage.dc_prevData = JSON.stringify(data)
-            console.log(data)
         },
         setWeights: function (weights, e) {
             var name = $(e.target).parent().parent().next().find('.input-sm').attr('name');
-            console.log(e)
             if (weights == undefined) { return false; }
             weights = weights.split(',');
             $(`[name="${name}"] option`).hide();
@@ -118,8 +114,6 @@ jQuery(document).ready(function ($) {
             }
         },
         setSize: $t => {
-            // console.log($t)
-            // console.log($t.val())
             var mform = $t.parent().parent().parent().attr('group')
             if ($t.val() == 'unique') {
                 $(`.${mform} .form-group.product_size_width, .${mform} .form-group.product_size_height`).show();
@@ -146,7 +140,6 @@ jQuery(document).ready(function ($) {
             if (obj.custom_height == undefined) { obj.custom_height = 1; }
             if (obj.product_size == 'unique') { obj.product_size = `${$(ptc + ' [name="custom_width"]').val()}x${$(ptc + ' [name="custom_height"]').val()}`; }
 
-            console.log(obj)
             return obj;
             //To add: options
         },
@@ -157,7 +150,6 @@ jQuery(document).ready(function ($) {
                 data: data,
                 nextNonce: dc_ajax.nextNonce
             }, function (resp) {
-                console.log(resp)
                 cb(resp);
             },'html');
         },
