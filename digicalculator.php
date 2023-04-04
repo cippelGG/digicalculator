@@ -1,9 +1,13 @@
 <?php
-/*
-Plugin Name: Digicalculator
-Description: Special connection with the Digicalculator server
-Author: Chanan Ippel
-*/
+/**
+ * @since             1.0.3
+ * @package           Digicalculator
+ *
+ * Plugin Name:       Digicalculator
+ * Description:       Special connection with the Digicalculator server.
+ * Version:           1.0.3
+ * Author:            Chanan Ippel
+ */
 
 if (!defined('ABSPATH')) {
     return;

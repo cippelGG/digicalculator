@@ -29,14 +29,19 @@ function digicalculator_add_cart_item_data($cart_item_data, $product_id, $variat
         $cart_item_data['height'] = 1;
         $cart_item_data['digicalculator_product'] = true;
         $cart_item_data['make_unique'] = date("YmdHis");
-        // ci_log(json_encode($cart_item_data));
+
+        ci_log(json_encode($cart_item_data));
     }
 
     return $cart_item_data;
 }
 add_filter('woocommerce_add_cart_item_data', 'digicalculator_add_cart_item_data', 10, 3);
 
-
+add_filter('woocommerce_cart_item_price', 'display_cart_items_custom_price_details', 20, 3 );
+function display_cart_items_custom_price_details( $product_price, $cart_item, $cart_item_key ){
+    $price = calculatePrice($cart_item, true);
+    return wc_price(round($price, 2));
+}
 
 function digicalculator_woocommerce_cart_item_name($item_name, $cart_item, $cart_item_key) {
     if( !is_cart() || (!array_key_exists( 'digicalculator_product', $cart_item )))
