@@ -203,12 +203,15 @@ function dc_digicalculator_table($options){
             </div>
             <hr>   
         </div>
-        <span class="button" id="dc-calculate">Berekenen</span>
+        <div class="dc-button">
+            <span class="button" id="dc-calculate">Berekenen</span>
+        </div>
         <div id="dc-prices"></div>
-
+        
         <input type="hidden" name="quantity" value="1000">
-        <button class="wp-element-button" type="submit" disabled name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" id="dc-order"><?php _e('Add to cart', 'woocommerce'); ?></button>
-
+        <div class="dc-button">
+            <button class="wp-element-button" type="submit" disabled name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" id="dc-order"><?php _e('Add to cart', 'woocommerce'); ?></button>
+        </div>
 
     </form>
 <?php
