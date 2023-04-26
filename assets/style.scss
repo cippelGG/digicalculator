@@ -4,3 +4,22 @@ table tbody tr.selected {
         color: white;
     }
 }
+
+.dc-delete_upload {
+    color: #bf2323;
+}
+.dc-view_upload {
+    color: #00a0e0;
+}
+
+.hentry .entry-content .dc-shoppingcart_table {
+    tr.deleting {
+        opacity: 0.5;
+    }
+    td {
+        padding: 8px;
+        a {
+            text-decoration: none;
+        }
+    }
+}

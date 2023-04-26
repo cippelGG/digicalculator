@@ -39,8 +39,12 @@ add_filter('woocommerce_add_cart_item_data', 'digicalculator_add_cart_item_data'
 
 add_filter('woocommerce_cart_item_price', 'display_cart_items_custom_price_details', 20, 3 );
 function display_cart_items_custom_price_details( $product_price, $cart_item, $cart_item_key ){
-    $price = calculatePrice($cart_item, true);
-    return wc_price(round($price, 2));
+    if( isset($cart_item['digicalculator_product']) ){
+        if( $cart_item['digicalculator_product'] ){
+            $price = calculatePrice($cart_item, true);
+            return wc_price(round($price, 2));
+        }
+    }
 }
 
 function digicalculator_woocommerce_cart_item_name($item_name, $cart_item, $cart_item_key) {
@@ -68,27 +72,29 @@ function digicalculator_woocommerce_cart_item_name($item_name, $cart_item, $cart
             $item_name .= '<a href="#" class="show-or-hide">Opties verbergen</a><br>';
             $item_name .= '</span>';
         }
+        if (isset($cart_item['order_files']) && count($cart_item['order_files']) > 0) {
+            $root = get_site_url();
+            $table = "";
+            foreach ($cart_item['order_files'] as $order_file) {
+                $table .= "<tr>
+                    <td> {$order_file['name']}</td>
+                    <td><a class='fas fa-eye dc-view_upload' href='{$root}/wp-content/uploads/dc-uploads/{$order_file['file']}' target='_blank'></i></a></td>
+                    <td><i class='fas fa-trash-alt dc-delete_upload' data-key='{$cart_item['key']}' data-file='{$order_file['file']}' ></i></td>                    
+                    </tr>";
+            }
+            $item_name .= "<table class='dc-shoppingcart_table'>$table</table>";
+            $item_name .= "<a href='#' class='upload-new-file' data-id='$cart_item_key'>Nog een bestand uploaden</a>"; 
+        } else {
+            $item_name .= "<table class='dc-shoppingcart_table'></table><a href='#' class='upload-new-file' data-id='$cart_item_key'>Bestand uploaden</a>"; 
+        }
     }
+    //Add an upload field
 
     return $item_name;
 }
 add_filter( 'woocommerce_cart_item_name', 'digicalculator_woocommerce_cart_item_name', 10, 3 );
 
 $dc_gl_options = getOptions();
-//This adds the variables to the shoppingcart page visualy
-// function digicalculator_add_variables_to_cart($item_data, $cart_item_data){
-//     if( isset($cart_item_data['digicalculator_product']) ){
-//         if( $cart_item_data['digicalculator_product'] ){
-//             $item_data[] = [
-//                 'key' => __( "Samenstelling", 'digicalculator' ),
-//                 'value'=> cart_obj_to_string( cart_item_data_to_obj($cart_item_data) )
-//             ];
-//         }
-//     }
-//     // ci_log(json_encode($options)); 
-//     return $item_data;
-// }
-// add_action( 'woocommerce_get_item_data', 'digicalculator_add_variables_to_cart', 10, 4 );
 
 //This sets the price in the shoppingcart
 function digicalculator_set_price($cart_object){
@@ -111,8 +117,6 @@ function digicalculator_add_variable_to_order_items( $item, $cart_item_key, $val
 	if( isset($values['digicalculator_product']) ){
         if( ($values['digicalculator_product']) ){
             $item_data = cart_item_data_to_obj($values);
-            ci_log(json_encode($values));
-            ci_log("item_data: ".$item_data['value']);
         
             $obj = [];
             foreach ($item_data as $it_da) {
@@ -120,6 +124,11 @@ function digicalculator_add_variable_to_order_items( $item, $cart_item_key, $val
                 // $item->add_meta_data( __( $it_da["key"], 'digicalculator' ), $it_da['value']);
             }
             $item->add_meta_data( 'dc_connect-product_keys', json_encode($obj));
+            
+            //Add the upload files to the digicalc prodcuts
+            if( isset( $values['order_files'] ) ){
+                $item->add_meta_data( 'dc_connect-files', json_encode($values['order_files']));
+            }
         }
     }
 }
@@ -140,8 +149,22 @@ function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatte
                 $html .= '<b>' . $value['title'] . '</b>' . ' - ' . $value['value'] . '<br/>';
             }
             $meta->display_value = $html;
+        } else if($meta->key == 'dc_connect-files') {
+            $meta->display_key = 'Bestanden';
+            $html = "<br/>";
+            $values = json_decode($meta->value, true);
+            $root = get_site_url();
+            foreach($values as $value) {
+                $html .= "<a href='{$root}/wp-content/uploads/dc-uploads/{$value['file']}' target='_blank'>{$value['name']}</a><br/>";
+            }
+            $meta->display_value = $html;
         }
     }
+    // $formatted_meta['dc_connect-files'] = (object)[
+    //     "key" => "dc_connect-files",
+    //     "display_key" => "test",
+    //     "display_value"=> "<pre>".json_encode($item->get_data(),JSON_PRETTY_PRINT)."</pre>"
+    // ];
     return $formatted_meta;
 }
 add_filter( 'woocommerce_order_item_get_formatted_meta_data','digicalculator_connect_wc_order_item_get_formatted_meta_data', 10, 2);
@@ -245,6 +268,7 @@ function cart_obj_to_string($cart_item_data){
 function calculatePrice($pricedata){
     unset($pricedata['variation']);
     unset($pricedata['line_tax_data']);
+    unset($pricedata['order_files']);
     if( $pricedata['product_size'] == 'unique' ){
         $pricedata['product_size'] = $pricedata['custom_width'].'x'. $pricedata['custom_height'];
     }

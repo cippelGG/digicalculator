@@ -1,0 +1,18 @@
+<div>
+    <label for="orderFile">Upload file</label>
+    <input type="file" name="orderFile" />
+    
+    <script>
+        var myFormData = new FormData();
+        myFormData.append('orderFile', pictureInput.files[0]);
+    
+        jQuery.ajax({
+            url: 'upload.php',
+            type: 'POST',
+            processData: false, // important
+            contentType: false, // important
+            dataType: 'json',
+            data: myFormData
+        });
+    </script>
+</div>

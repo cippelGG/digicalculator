@@ -6,6 +6,11 @@ add_action('wp_enqueue_scripts', function () {
         'digicalculator',
         plugin_dir_url(__FILE__) . '../js/digicalculator.js'
     );
+    wp_enqueue_script(
+        'dc_shoppingcart',
+        plugin_dir_url(__FILE__) . '../js/dc_shoppingcart.js'
+    );
+    //No reason to also localize dc_shoppingcart, since dc_ajax is allready set;
     wp_localize_script(
         'digicalculator',
         'dc_ajax',
@@ -41,7 +46,6 @@ function dc_getprices_ajax(){
     // IMPORTANT: don't forget to "exit"
     exit;
 }
-
 
 // --------------------------
 // #6 Add page layout above order button

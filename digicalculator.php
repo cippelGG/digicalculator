@@ -1,11 +1,11 @@
 <?php
 /**
- * @since             1.0.3
+ * @since             1.0.4
  * @package           Digicalculator
  *
  * Plugin Name:       Digicalculator
  * Description:       Special connection with the Digicalculator server.
- * Version:           1.0.4
+ * Version:           1.1.0
  * Author:            Chanan Ippel
  */
 
@@ -30,4 +30,5 @@ require_once plugin_dir_path(__FILE__) . 'includes/dc-producttype.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-productpage.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-adminpage.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-handlecart.php';
+require_once plugin_dir_path(__FILE__) . 'includes/dc-uploadfile.php';
 
