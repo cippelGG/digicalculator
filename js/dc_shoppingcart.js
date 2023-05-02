@@ -39,8 +39,9 @@ function handle_dc_upload($) {
                         <td><a class="fas fa-eye dc-view_upload" href="${resp['url']}" target="_blank"></a></td>
                         <td><i class="fas fa-trash-alt dc-delete_upload" data-key="${resp['id']}" data-file="${resp['file']}"></i></td>                    
                     </tr>`);
-                    handle_dc_delete_file($)
+
                     //empty the uploader and add the just oploaded files;
+                    refresh_shoppingcart_when_done($);
                     this.removeFile(file);
 
                 } catch (error) {
@@ -64,6 +65,18 @@ function handle_dc_delete_file($){
         console.log(url)
         $.get(`${dc_ajax.ajaxurl}?action=DC-deletefile&cart_item_id=${id}&file=${file}`,function(){
             $t.remove();
+            refresh_shoppingcart_when_done($);
         })
     });
+}
+
+function refresh_shoppingcart_when_done($){
+    if( $('.deleting').length == 0 && $('.dz-preview.dz-file-preview').length == 0 ){
+        $( "[name='update_cart']" ).removeAttr( 'disabled' );
+        $( "[name='update_cart']" ).trigger( 'click' );
+    } else {
+        setTimeout(function(){
+            refresh_shoppingcart_when_done($);
+        },500)
+    }
 }

@@ -5,16 +5,24 @@ table tbody tr.selected {
     }
 }
 
-.dc-delete_upload {
-    color: #bf2323;
-}
-.dc-view_upload {
-    color: #00a0e0;
-}
 
 .hentry .entry-content .dc-shoppingcart_table {
+    margin: 4px 0px 10px 0px;
+    &:empty {
+        margin: 0px;
+    }
     tr.deleting {
         opacity: 0.5;
+    }
+    .dc-delete_upload {
+        color: #bf2323;
+    }
+    .dc-view_upload {
+        color: #00a0e0;
+    }
+    .fas {
+        font-family: "Font Awesome 5 Free" !important;
+        font-weight: 900 !important;
     }
     td {
         padding: 8px;

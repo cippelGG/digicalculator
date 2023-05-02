@@ -169,6 +169,28 @@ function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatte
 }
 add_filter( 'woocommerce_order_item_get_formatted_meta_data','digicalculator_connect_wc_order_item_get_formatted_meta_data', 10, 2);
 
+function check_and_limit_cart_items (  ){
+    // HERE set your product category (can be term IDs, slugs or names)
+    $category = 'posters';
+
+    // We exit if the cart is empty
+    if( WC()->cart->is_empty() ){
+        return false;
+    }
+
+    // CHECK CART ITEMS: search for items from product category
+    foreach ( WC()->cart->get_cart() as $cart_item ){
+        if( $cart_item['digicalculator_product'] == true ){
+            if( !isset($cart_item['order_files']) || count( $cart_item['order_files'] ) == 0 ){
+                wc_add_notice( sprintf( '<strong>Voor Printcalc producten moeten alle bestanden vooraf geupload worden.</strong>' ), 'error' );
+                return false;
+            }
+        }
+        // echo "<pre>".json_encode($cart_item, JSON_PRETTY_PRINT)."</pre>";
+    }
+    return true;
+}
+add_filter( 'woocommerce_check_cart_items', 'check_and_limit_cart_items');
 
 
 function cart_item_data_to_obj($cart_item_data){
