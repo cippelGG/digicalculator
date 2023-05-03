@@ -7,8 +7,11 @@ table tbody tr.selected {
 
 
 .woocommerce-cart-form__cart-item.cart_item {
-    &.dc-shoppingcart_alert td:first-of-type {
+    &.dc-shoppingcart_alert > td:first-of-type {
         border-left: 3px #bf2323 solid;
+    }
+    .woocommerce-error {
+        margin: 16px 0px 6px;
     }
     .dc-shoppingcart_table {
         &:has( tbody:empty ), &:empty {

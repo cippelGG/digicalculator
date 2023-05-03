@@ -56,7 +56,16 @@ function handle_dc_upload($) {
                     alert(`Problem with uploading ${JSON.stringify(file)}`);
                     this.removeFile(file);
                 }
-            } 
+            } ,
+            error: function(file, resp){
+                var tpz = this,
+                    $error = $(`<div class="woocommerce-error">${file.name}: ${resp}</div>`);
+                $(`#dcDropzone-${id}`).before($error)
+                $error.click(function(){
+                    $(this).remove();
+                    tpz.removeFile(file);
+                })
+            }
         });
     })
 }
