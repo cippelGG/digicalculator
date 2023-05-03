@@ -1,4 +1,8 @@
 jQuery(document).ready(function ($) {
+    // Dropzone.options.mydz = {
+    //     dictDefaultMessage: "your custom message"
+    // };    
+
     handle_dc_upload($);
     handle_dc_delete_file($);
 
@@ -20,7 +24,9 @@ function handle_dc_upload($) {
         var id = $(this).attr('data-id')
         console.log('add form')
         $(this).after(`
-            <div id="dcDropzone-${id}" class="dropzone"/>
+            <div id="dcDropzone-${id}" class="dropzone"> 
+                <div class="dz-message" data-dz-message><span>Klik hier om een bestand toe te voegen <br/> <small>of sleep een bestand op dit vlak</small> </span></div>  
+            </div>
         `);
         $(`div#dcDropzone-${id}`).dropzone({ 
             url: dc_ajax.ajaxurl,

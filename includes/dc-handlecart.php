@@ -169,9 +169,11 @@ function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatte
 }
 add_filter( 'woocommerce_order_item_get_formatted_meta_data','digicalculator_connect_wc_order_item_get_formatted_meta_data', 10, 2);
 
+$alerts = [];
 function check_and_limit_cart_items (  ){
+    global $alerts;
     // HERE set your product category (can be term IDs, slugs or names)
-    $category = 'posters';
+    $notice = false;
 
     // We exit if the cart is empty
     if( WC()->cart->is_empty() ){
@@ -180,17 +182,29 @@ function check_and_limit_cart_items (  ){
 
     // CHECK CART ITEMS: search for items from product category
     foreach ( WC()->cart->get_cart() as $cart_item ){
+        // echo '<pre>'; print_r($cart_item); echo '</pre>';
         if( $cart_item['digicalculator_product'] == true ){
             if( !isset($cart_item['order_files']) || count( $cart_item['order_files'] ) == 0 ){
-                wc_add_notice( sprintf( '<strong>Voor Printcalc producten moeten alle bestanden vooraf geupload worden.</strong>' ), 'error' );
-                return false;
+                if( !$notice ){
+                    wc_add_notice( sprintf( '<strong>Voor Printcalc producten moeten alle bestanden vooraf geupload worden.</strong>' ), 'error' );
+                    $notice = true;
+                }
+                $alerts[] = $cart_item['key'];
             }
         }
         // echo "<pre>".json_encode($cart_item, JSON_PRETTY_PRINT)."</pre>";
     }
-    return true;
+    return !$notice;
 }
 add_filter( 'woocommerce_check_cart_items', 'check_and_limit_cart_items');
+function digicalculator_cart_item_class($class, $cart_item, $cart_item_key ){
+    global $alerts;
+    if( in_array($cart_item_key,$alerts) == true ){ 
+        $class.= " dc-shoppingcart_alert";
+    }
+    return $class;
+}
+add_filter( 'woocommerce_cart_item_class','digicalculator_cart_item_class', 10, 3 );
 
 
 function cart_item_data_to_obj($cart_item_data){
