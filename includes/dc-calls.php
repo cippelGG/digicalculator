@@ -25,6 +25,16 @@ if (isset($_GET['getPrices'])) {
 }
 
 function getPrices($ajax_post, $json = false){
+    // for some reason when a key ends with a ], it disapears when posted to this script. Check all keys and add when missing
+    foreach ($ajax_post as $key => $value) {
+        if( str_contains($key,'[') && $key[strlen($key)-1] != "]" ){
+            $ajax_post["$key]"] = $value;
+            unset($ajax_post[$key]);
+        }
+    }
+    // echo json_encode( $ajax_post );
+    // return false;
+
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -87,8 +97,7 @@ function getPrices($ajax_post, $json = false){
     }
 }
 
-function getOptions()
-{
+function getOptions(){
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
