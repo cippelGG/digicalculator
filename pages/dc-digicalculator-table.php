@@ -31,7 +31,7 @@ function dc_digicalculator_table($options){
                         <div class="col-sm-8 col-xs-12"> <input type="text" class="form-control input-sm" name="custom_height" value="297"> </div>
                     </div>
                     <div class="form-group"> <label class="col-sm-4 col-xs-12 control-label">Afloop</label>
-                        <div class="col-sm-8 col-xs-12"> <input type="text" class="form-control input-sm" readonly="" value="2">
+                        <div class="col-sm-8 col-xs-12"> <input type="text" class="form-control input-sm" readonly="" value="3">
                             <input type="hidden" name="bleed" value="3">
                         </div>
                     </div>

@@ -25,6 +25,15 @@ jQuery(document).ready(function ($) {
 
             $dc.getPrices(function (resp) {
                 $('#dc-prices').html(resp);
+                if( $('#dc-prices [missing-fields]').length > 0 ){
+                    $('.missing').removeClass('missing');
+                    
+                    var missingFields = $('#dc-prices [missing-fields]').attr('missing-fields').split(',');
+                    for (const element of missingFields) {
+                        $(`[name="${element}"]`).addClass('missing')
+                    }
+                    $('.missing').change(function(){$(this).removeClass('missing')})
+                }
                 $('#dc-prices tr td').click(function (e) {
                     $('#dc-prices .selected').removeClass('selected')
                     $(this).parent().addClass('selected');

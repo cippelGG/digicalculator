@@ -32,8 +32,24 @@ function getPrices($ajax_post, $json = false){
             unset($ajax_post[$key]);
         }
     }
+
+    //Check if the dataset is complete;
+    $missing = []; $toCheck = ['printtype','papertype','weight','printtype_cover','papertype_cover','weight_cover'];
+    foreach( $toCheck as $checkKey ){
+        if( isset( $ajax_post[$checkKey] ) ){
+            if( $ajax_post[$checkKey] == "" || $ajax_post[$checkKey] == 0 ){
+                $missing[] = $checkKey;
+            }
+        }
+    }
+    if( count($missing) > 0 ){
+        ?>
+            <span missing-fields="<?php echo implode(',',$missing); ?>" class="error">Niet alle verplichte velden zijn ingevuld</span>
+        <?php
+        return false;
+    }
     // echo json_encode( $ajax_post );
-    // return false;
+
 
     $curl = curl_init();
 

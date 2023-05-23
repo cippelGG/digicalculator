@@ -5,6 +5,11 @@ table tbody tr.selected {
     }
 }
 
+#dc-form {
+    .missing {
+        border: 2px solid #bf2323; 
+    }
+}
 
 .woocommerce-cart-form__cart-item.cart_item {
     &.dc-shoppingcart_alert > td:first-of-type {
