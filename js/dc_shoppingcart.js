@@ -3,11 +3,11 @@ jQuery(document).ready(function ($) {
     //     dictDefaultMessage: "your custom message"
     // };    
 
-    handle_dc_upload($);
+    handle_dc_upload_pond($);
     handle_dc_delete_file($);
 
     $( document.body ).on( 'updated_cart_totals', function(){
-        handle_dc_upload($);
+        handle_dc_upload_pond($);
         handle_dc_delete_file($);
         //re-do your jquery
     });
@@ -70,14 +70,78 @@ function handle_dc_upload($) {
     })
 }
 
+function handle_dc_upload_pond($){
+    $('.upload-new-file').off('click').click(function (e) {
+        $(this).hide().off('click').click(function(e){
+            //Hide button after first click. Also block the interaction to be sure
+            e.preventDefault();
+        });
+        e.preventDefault();
+        //Add form
+        var id = $(this).attr('data-id');
+        console.log('add form');
+
+        $(this).after(`
+            <input type="file" class="filepond" id="dcDropzone-${id}">
+        `);
+        var $pond = $(`#dcDropzone-${id}`);
+        $pond.filepond({
+            credits: false,
+            server: {
+                process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+                    const formData = new FormData();
+
+                    formData.append(fieldName, file, file.name);
+                    formData.append('action', 'DC-uploadfile-pond');
+                    formData.append('cart_item_id', id);
+                    formData.append('nextNonce', dc_ajax.nextNonce);
+        
+                    const request = new XMLHttpRequest();
+                    request.open('POST', dc_ajax.ajaxurl);
+        
+                    request.upload.onprogress = (e) => {
+                        progress(e.lengthComputable, e.loaded, e.total);
+                    };
+        
+                    request.onload = function () {
+                        if (request.status >= 200 && request.status < 300) {
+                            console.log(request)
+                            var resp = JSON.parse(request.responseText);
+                            if( $(e.target).parent().find('.pww-product-files-wrap').length == 0 ){
+                                $(e.target).parent().append('<div class="pww-product-files-wrap"><br><span>Drukbestanden:<span><br><div class="pww-product-files-list"></div></span></span></div>')
+                            }
+                            $(e.target).parent().find('.pww-product-files-list').append(`<a
+                                href="${resp['url']}"
+                                target="_blank">${resp['name']}
+                            </a> - 
+                            <a class="pww-file-delete-link dc-delete_upload" 
+                                data-key="${resp['id']}" 
+                                data-file="${resp['file']}"
+                                >verwijderen
+                            </a>`);
+
+                            refresh_shoppingcart_when_done($);
+                        } else {
+                            // Can call the error method if something is wrong, should exit after
+                            error('oh no');
+                        }
+                    };
+        
+                    request.send(formData);
+                }
+            }    
+        });
+    })
+}
+
 function handle_dc_delete_file($){
     $('.dc-delete_upload').off('click').click(function(){
         var id = $(this).attr('data-key'),
             file = $(this).attr('data-file'),
-            $t = $(this).parent().parent();
-        $t.addClass('deleting')
+            $t = $(this).parent();
+        $t.addClass('deleting');
         var url = `${dc_ajax.ajaxurl}?action=DC-deletefile&cart_item_id=${id}&file=${file}`;
-        console.log(url)
+        console.log(url);
         $.get(`${dc_ajax.ajaxurl}?action=DC-deletefile&cart_item_id=${id}&file=${file}`,function(){
             $t.remove();
             refresh_shoppingcart_when_done($);
@@ -86,7 +150,8 @@ function handle_dc_delete_file($){
 }
 
 function refresh_shoppingcart_when_done($){
-    if( $('.deleting').length == 0 && $('.dz-preview.dz-file-preview').length == 0 ){
+    if( $('.deleting').length == 0 && 
+    $('.filepond--file-status-main').length == $('.filepond--file-status-main:contains("Uploading 100%")').length ){
         $( "[name='update_cart']" ).removeAttr( 'disabled' );
         $( "[name='update_cart']" ).trigger( 'click' );
     } else {

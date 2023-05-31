@@ -72,20 +72,44 @@ function digicalculator_woocommerce_cart_item_name($item_name, $cart_item, $cart
             $item_name .= '<a href="#" class="show-or-hide">Opties verbergen</a><br>';
             $item_name .= '</span>';
         }
+
         if (isset($cart_item['order_files']) && count($cart_item['order_files']) > 0) {
             $root = get_site_url();
-            $table = "";
+            $item_name .= '<div class="pww-product-files-wrap"><br><span>Drukbestanden:<span><br>';
+            $item_name .= '<div class="pww-product-files-list">';
             foreach ($cart_item['order_files'] as $order_file) {
-                $table .= "<tr>
-                    <td> {$order_file['name']}</td>
-                    <td><a class='fas fa-eye dc-view_upload' href='{$root}/wp-content/uploads/dc-uploads/{$order_file['file']}' target='_blank'></i></a></td>
-                    <td><i class='fas fa-trash-alt dc-delete_upload' data-key='{$cart_item['key']}' data-file='{$order_file['file']}' ></i></td>                    
-                    </tr>";
+                $item_name .= "<a
+                    href=\"{$root}/wp-content/uploads/dc-uploads/{$order_file['file']}\"
+                    target=\"_blank\">{$order_file['name']}
+                </a> - 
+                <a href=\"#\"
+                    class=\"pww-file-delete-link dc-delete_upload\" 
+                    data-key='{$cart_item['key']}' data-file='{$order_file['file']}'>verwijderen
+                </a>
+                <br>";
             }
-            $item_name .= "<table class='dc-shoppingcart_table'>$table</table>";
+            $item_name .= '</div></span></span></div>';
             $item_name .= "<a href='#' class='upload-new-file' data-id='$cart_item_key'>Nog een bestand uploaden</a>"; 
         } else {
-            $item_name .= "<table class='dc-shoppingcart_table'></table><a href='#' class='upload-new-file' data-id='$cart_item_key'>Bestand uploaden</a>"; 
+            $item_name .= "<a href='#' class='upload-new-file' data-id='$cart_item_key'>Bestand uploaden</a>"; 
+        }
+
+        if( 1==0 ){
+            if (isset($cart_item['order_files']) && count($cart_item['order_files']) > 0) {
+                $root = get_site_url();
+                $table = "";
+                foreach ($cart_item['order_files'] as $order_file) {
+                    $table .= "<tr>
+                        <td> {$order_file['name']}</td>
+                        <td><a class='fas fa-eye dc-view_upload' href='{$root}/wp-content/uploads/dc-uploads/{$order_file['file']}' target='_blank'></i></a></td>
+                        <td><i class='fas fa-trash-alt dc-delete_upload' data-key='{$cart_item['key']}' data-file='{$order_file['file']}' ></i></td>                    
+                        </tr>";
+                }
+                $item_name .= "<table class='dc-shoppingcart_table'>$table</table>";
+                $item_name .= "<a href='#' class='upload-new-file' data-id='$cart_item_key'>Nog een bestand uploaden</a>"; 
+            } else {
+                $item_name .= "<table class='dc-shoppingcart_table'></table><a href='#' class='upload-new-file' data-id='$cart_item_key'>Bestand uploaden</a>"; 
+            }
         }
     }
     //Add an upload field
