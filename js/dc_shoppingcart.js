@@ -81,12 +81,36 @@ function handle_dc_upload_pond($){
         var id = $(this).attr('data-id');
         console.log('add form');
 
-        $(this).after(`
+        $(this).after(`<div class="pww-uploader">
             <input type="file" class="filepond" id="dcDropzone-${id}">
-        `);
+        </div>`);
         var $pond = $(`#dcDropzone-${id}`);
         $pond.filepond({
             credits: false,
+                "labelIdle": "Sleep bestanden hierheen of klik om te <span class=\"filepond--label-action\"> Bladeren <\/span>",
+                "labelInvalidField": "Veld bevat ongeldige bestanden",
+                "labelFileWaitingForSize": "Wachten op maat",
+                "labelFileSizeNotAvailable": "Maat niet beschikbaar",
+                "labelFileLoading": "Bezig met laden",
+                "labelFileLoadError": "Fout tijdens laden",
+                "labelFileProcessing": "Uploaden",
+                "labelFileProcessingComplete": "Upload compleet",
+                "labelFileProcessingAborted": "Upload geannuleerd",
+                "labelFileProcessingError": "Fout tijdens uploaden",
+                "labelFileProcessingRevertError": "Fout tijdens terugzetten",
+                "labelFileRemoveError": "Fout tijdens verwijderen",
+                "labelTapToCancel": "tik om te annuleren",
+                "labelTapToRetry": "tik om opnieuw te proberen",
+                "labelTapToUndo": "tik om ongedaan te maken",
+                "labelButtonRemoveItem": "Verwijderen",
+                "labelButtonAbortItemLoad": "Afbreken",
+                "labelButtonRetryItemLoad": "Opnieuw proberen",
+                "labelButtonAbortItemProcessing": "Annuleren",
+                "labelButtonUndoItemProcessing": "Ongedaan maken",
+                "labelButtonRetryItemProcessing": "Opnieuw proberen",
+                "labelButtonProcessItem": "Uploaden",
+                "labelMaxFileSizeExceeded": "Bestand is te groot",
+                "labelMaxFileSize": "Maximale bestandsgrootte is 128MB",
             server: {
                 process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
                     const formData = new FormData();
@@ -106,6 +130,7 @@ function handle_dc_upload_pond($){
                     request.onload = function () {
                         if (request.status >= 200 && request.status < 300) {
                             console.log(request)
+                            console.log("This upload object",$(e.target))
                             var resp = JSON.parse(request.responseText);
                             if( $(e.target).parent().find('.pww-product-files-wrap').length == 0 ){
                                 $(e.target).parent().append('<div class="pww-product-files-wrap"><br><span>Drukbestanden:<span><br><div class="pww-product-files-list"></div></span></span></div>')
@@ -150,13 +175,18 @@ function handle_dc_delete_file($){
 }
 
 function refresh_shoppingcart_when_done($){
-    if( $('.deleting').length == 0 && 
-    $('.filepond--file-status-main').length == $('.filepond--file-status-main:contains("Uploading 100%")').length ){
-        $( "[name='update_cart']" ).removeAttr( 'disabled' );
-        $( "[name='update_cart']" ).trigger( 'click' );
-    } else {
+    if ($('.deleting').length == 0 &&
+        ( $('.filepond--file-status-main').length == $('.filepond--file-status-main:contains("Uploading 100%")').length 
+        || $('.filepond--file-status-main').length == $('.filepond--file-status-main:contains("Uploaden 100%")').length 
+        || $('.filepond--file-status-main').length == $("[data-filepond-item-state='processing-complete']").length )
+    ){
+        $("[name='update_cart']").removeAttr('disabled');
         setTimeout(function(){
+            $("[name='update_cart']").trigger('click');
+        },100)
+    } else {
+        setTimeout(function () {
             refresh_shoppingcart_when_done($);
-        },500)
+        }, 500)
     }
 }
