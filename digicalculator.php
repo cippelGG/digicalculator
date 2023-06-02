@@ -5,7 +5,7 @@
  *
  * Plugin Name:       Digicalculator
  * Description:       Special connection with the Digicalculator server.
- * Version:           1.2.0
+ * Version:           1.3.0
  * Author:            Chanan Ippel
  */
 
