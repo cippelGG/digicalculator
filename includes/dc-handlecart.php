@@ -184,8 +184,9 @@ function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatte
             $meta->display_value = $html;
         }
     }
+
     //When the order is added to the shoppingcart, mail the customersupport 
-    wp_mail("order@zogedrukt.nl","onderwerp",'
+    wp_mail("orders@zogedrukt.nl","onderwerp",'
         Beste klantenservice,
 
         Er is een order geplaatst met een PrintCalc product.
