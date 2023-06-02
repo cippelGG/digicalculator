@@ -157,12 +157,15 @@ function digicalculator_add_variable_to_order_items( $item, $cart_item_key, $val
             $mail = "";
             $mail .= "<p>Beste klantenservice,</p>";
             $mail .= "<p>Er is een order geplaatst met een PrintCalc product onder order $cart_item_key.</p>";
-            $mail .= "<table><tr><td>Producttype</td><td>".$values['product_type']."</td></tr>";
-            foreach ($item_data as $key => $svalue) {
-                $mail .= "<tr><td> $key</td><td>".$svalue."</td></tr>";
+            $mail .= "<table><tr><th>Producttype</td><td>".$values['product_type']."</td></tr>";
+            foreach ($item_data as $svalue) {
+                $mail .= "<tr><td>{$svalue['key']}</td><td>{$svalue['value']}</td></tr>";
+            }
+            foreach ($values['order_files'] as $svalue) {
+                $mail .= "<tr><td>{$svalue['name']}</td><td>{$svalue['url']}</td></tr>";
             }
             $mail .= "</table>";
-            $mail .= "<p>".json_encode($order)."</p>";
+            $mail .= "<p>".json_encode($item)."</p>";
 
             $content_type = function() { return 'text/html'; };
             add_filter( 'wp_mail_content_type', $content_type );  
