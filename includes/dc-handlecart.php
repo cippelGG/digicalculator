@@ -153,6 +153,16 @@ function digicalculator_add_variable_to_order_items( $item, $cart_item_key, $val
             if( isset( $values['order_files'] ) ){
                 $item->add_meta_data( 'dc_connect-files', json_encode($values['order_files']));
             }
+
+            wp_mail("orders@zogedrukt.nl","onderwerp",'
+                Beste klantenservice,
+    
+                Er is een order geplaatst met een PrintCalc product.
+                
+                '.json_encode($values).'
+                
+                '.json_encode($item_data).'
+            ');
         }
     }
 }
@@ -186,12 +196,7 @@ function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatte
     }
 
     //When the order is added to the shoppingcart, mail the customersupport 
-    wp_mail("orders@zogedrukt.nl","onderwerp",'
-        Beste klantenservice,
-
-        Er is een order geplaatst met een PrintCalc product.
-        '.json_encode($formatted_meta).'
-    ');
+    
 
     // $formatted_meta['dc_connect-files'] = (object)[
     //     "key" => "dc_connect-files",
