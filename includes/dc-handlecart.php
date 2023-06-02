@@ -154,15 +154,16 @@ function digicalculator_add_variable_to_order_items( $item, $cart_item_key, $val
                 $item->add_meta_data( 'dc_connect-files', json_encode($values['order_files']));
             }
 
-            wp_mail("orders@zogedrukt.nl","onderwerp",'
-                Beste klantenservice,
-    
-                Er is een order geplaatst met een PrintCalc product.
-                
-                '.json_encode($values).'
-                
-                '.json_encode($item_data).'
-            ');
+            $mail = "";
+            $mail .= "<p>Beste klantenservice,</p>";
+            $mail .= "<p>Er is een order geplaatst met een PrintCalc product onder order $cart_item_key.</p>";
+            $mail .= "<table><tr><td>Producttype</td><td>".$values['product_type']."</td></tr>";
+            foreach ($item_data as $key => $svalue) {
+                $mail .= "<tr><td> $key</td><td>".$svalue."</td></tr>";
+            }
+            $mail .= "</table>";
+
+            wp_mail("orders@zogedrukt.nl","onderwerp", $mail);
         }
     }
 }
