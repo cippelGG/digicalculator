@@ -164,7 +164,8 @@ function digicalculator_add_variable_to_order_items( $item, $cart_item_key, $val
             $mail .= "</table>";
             $mail .= "<p>".json_encode($order)."</p>";
 
-            add_filter( 'wp_mail_content_type', 'wpdocs_set_html_mail_content_type' );
+            $content_type = function() { return 'text/html'; };
+            add_filter( 'wp_mail_content_type', $content_type );  
             wp_mail("orders@zogedrukt.nl","Digicalulator product in order ", $mail);
             remove_filter( 'wp_mail_content_type', 'wpdocs_set_html_mail_content_type' );
 
