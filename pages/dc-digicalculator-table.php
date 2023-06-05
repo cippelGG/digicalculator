@@ -35,7 +35,7 @@ function dc_digicalculator_table($options){
                             <input type="hidden" name="bleed" value="3">
                         </div>
                     </div>
-                    <div class="form-group" style="<?php echo $option['id']=='default'?'display: none !important;':'display: block;';?>" > <label class="col-sm-4 col-xs-12 control-label">Aantal pagina's</label>
+                    <div class="form-group" style="<?php echo $option['id']=='default'?'display: none !important;':'display: block;';?>" > <label class="col-sm-4 col-xs-12 control-label">Aantal pagina's <?php echo $option['id']=='default'?'':' inclusief omslag';?></label>
                         <div class="col-sm-8 col-xs-12"> <input type="number" class="form-control input-sm" name="pages" value="2" <?php echo $option['id']=='default'?'step="1" min="1"':'step="2" min="2"';?>> </div>
                     </div>
                     <hr>
