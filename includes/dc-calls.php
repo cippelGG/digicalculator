@@ -25,6 +25,10 @@ if (isset($_GET['getPrices'])) {
 }
 
 function getPrices($ajax_post, $json = false){
+    //For the call it should be brochure, and not brochures.
+    if( $ajax_post['product_type'] == 'brochures' ){
+        $ajax_post['product_type'] = 'brochure';
+    }
     // for some reason when a key ends with a ], it disapears when posted to this script. Check all keys and add when missing
     foreach ($ajax_post as $key => $value) {
         if( str_contains($key,'[') && $key[strlen($key)-1] != "]" ){
@@ -48,9 +52,7 @@ function getPrices($ajax_post, $json = false){
         <?php
         return false;
     }
-    // echo json_encode( $ajax_post );
-
-
+    // ci_log( json_encode( $ajax_post ) );
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
