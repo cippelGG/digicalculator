@@ -280,7 +280,7 @@ function cart_item_data_to_obj($cart_item_data){
         $value = getOptionsFromId($cart_item_data['papertype_cover'],$options,'materials_cover');
         $item_data[] = [
             'key' => __( "Materiaal omslag", 'digicalculator' ),
-            'value'=> $cart_item_data["weight"].' grams '.$value
+            'value'=> $cart_item_data["weight_cover"].' grams '.$value
         ]; unset($value);
     }
     
@@ -294,7 +294,7 @@ function cart_item_data_to_obj($cart_item_data){
 
     if( isset( $cart_item_data["papertype"] ) ){ // Look up in options
         $keys = ['materials','Materiaal','weight']; 
-        if( $cart_item_data['product_type'] == 'brochures' ){$keys=['materials_center','Materiaal binnenwerk','weight_cover'];}
+        if( $cart_item_data['product_type'] == 'brochures' ){$keys=['materials_center','Materiaal binnenwerk','weight'];}
         $value = getOptionsFromId($cart_item_data['papertype'],$options,$keys[0]);
         $item_data[] = [
             'key' => __( $keys[1], 'digicalculator' ),
