@@ -1,0 +1,211 @@
+<html>
+
+<head>
+    <title>Inkoopopdracht {{order_id}}-{{line_id}}</title>
+    <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39%7CLibre+Barcode+39+Text&amp;display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <table class="orderbon"
+        style="margin:10px 0px;border-collapse:collapse;font-size:11pt;width:100%;font-family:Arial, Helvetica, sans-serif;">
+        <tbody>
+            <tr class="firstrow" style="width: 100%;">
+                <td class="firstrow-left"
+                    style="border-collapse:collapse;border:0px;padding:0px;min-width:150px;font-family:Arial, Helvetica, sans-serif;width:50%;">
+                    <table style="margin: 10px 0px;	border-collapse: collapse;	font-size: 11pt;">
+                        <tbody>
+                            <tr class="header"
+                                style="width:100%;font-size:1.5em;font-family:Arial, Helvetica, sans-serif;">
+                                <td colspan="2"
+                                    style="border-collapse:collapse;border:0px;padding:4px 8px;min-width:150px;font-family:Arial, Helvetica, sans-serif;">
+                                    <h2>Digicalculator <br> inkoopopdracht</h2>
+                                </td>
+                            </tr>
+                            <tr style="width: 100%;">
+                                <td colspan="2" class="barcodes"
+                                    style="border-collapse:collapse;border:1px solid black;padding:4px 8px;min-width:150px;font-family:Arial, Helvetica, sans-serif;padding-top:30px;">
+                                    <span class="barcode2"
+                                        style="font: 30pt 'Libre Barcode 39','3 of 9 Barcode', cursive;	text-align: center;	position: absolute;	margin-top: -16pt;">*{{order_id}}-{{line_id}}*</span>
+                                    <span class="barcode1"
+                                        style="font: 30pt 'Libre Barcode 39 Text','3 of 9 Barcode', cursive;	text-align: center;">*{{order_id}}-{{line_id}}*</span>
+                                </td>
+                            </tr>
+                            <tr style="width: 100%;">
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    Ordernummer</td>
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    {{order_id}}-{{line_id}}</td>
+                            </tr>
+                            <tr style="width: 100%;">
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    Type levering</td>
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    3 productiedag(en)</td>
+                            </tr>
+                            <tr style="width: 100%;">
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    Datum inkoop</td>
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    {{date}}</td>
+                            </tr>
+                            <tr style="width: 100%;">
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    Bestelhoeveelheid</td>
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    {{quantity}}</td>
+                            </tr>
+                            <tr style="width: 100%;">
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                    Referentie klant</td>
+                                <td
+                                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                                {{extref}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td class="firstrow-right"
+                    style="border-collapse:collapse;border:1px solid black;padding:0px;min-width:150px;font-family:Arial, Helvetica, sans-serif;width:50%;">
+                    <!-- <img class="thumbnail"
+                        src=""
+                        style="max-width: 100%;	height: 270px;	margin: auto;	display: block;"> </td> -->
+            </tr>
+        </tbody>
+    </table>
+    <table style="margin: 10px 0px;	border-collapse: collapse;	font-size: 11pt;">
+        <tbody>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Bestand</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    {{file_links}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="margin: 10px 0px;	border-collapse: collapse;	font-size: 11pt;">
+        <tbody>
+            <tr class="header" style="width:100%;font-size:1.5em;font-family:Arial, Helvetica, sans-serif;">
+                <td colspan="2"
+                    style="border-collapse:collapse;border:0px;padding:4px 8px;min-width:150px;font-family:Arial, Helvetica, sans-serif;">
+                    Productinformatie</td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Materiaaltype</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                </td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Bleed</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    3 rondom</td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="margin: 10px 0px;	border-collapse: collapse;	font-size: 11pt;">
+        <tbody>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Productgroep</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Printcalc Product</td>
+            </tr>
+            {{option_rows}}
+        </tbody>
+    </table>
+    <table style="margin: 10px 0px;	border-collapse: collapse;	font-size: 11pt;">
+        <tbody>
+            <tr class="header" style="width:100%;font-size:1.5em;font-family:Arial, Helvetica, sans-serif;">
+                <td colspan="2"
+                    style="border-collapse:collapse;border:0px;padding:4px 8px;min-width:150px;font-family:Arial, Helvetica, sans-serif;">
+                    Klantgegevens</td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Naam</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    {{client}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="margin: 10px 0px;	border-collapse: collapse;	font-size: 11pt;">
+        <tbody>
+            <tr class="header" style="width:100%;font-size:1.5em;font-family:Arial, Helvetica, sans-serif;">
+                <td colspan="2"
+                    style="border-collapse:collapse;border:0px;padding:4px 8px;min-width:150px;font-family:Arial, Helvetica, sans-serif;">
+                    Afleveradres</td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Contactpersoon</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    {{del_contact}}</td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Bedrijfsnaam</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    {{del_company}}</td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Adres</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    {{del_adress}} </td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Stad</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    {{del_city}}</td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Postcode</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    {{del_postal}}</td>
+            </tr>
+            <tr style="width: 100%;">
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    Land</td>
+                <td
+                    style="border-collapse: collapse;	border: 1px solid black;	padding: 4px 8px;	min-width: 150px;	font-family: Arial, Helvetica, sans-serif;">
+                    {{del_country}}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

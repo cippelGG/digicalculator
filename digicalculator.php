@@ -1,13 +1,18 @@
 <?php
 /**
- * @since             1.3.4
+ * @since             1.3.5
  * @package           Digicalculator
  *
  * Plugin Name:       Digicalculator
  * Description:       Special connection with the Digicalculator server.
- * Version:           1.3.5
+ * Version:           1.3.6
  * Author:            Chanan Ippel
  */
+
+ ini_set('log_errors','On'); // enable or disable PHP error logging (use 'On' or 'Off')
+ ini_set('display_errors','Off'); // enable or disable public display of errors (use 'On' or 'Off')
+ error_reporting(E_ALL);
+ ini_set('error_log',plugin_dir_path(__FILE__)."error.log"); // path to server-writable log file
 
 if (!defined('ABSPATH')) {
     return;
@@ -31,4 +36,5 @@ require_once plugin_dir_path(__FILE__) . 'includes/dc-productpage.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-adminpage.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-handlecart.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-uploadfile.php';
+require_once plugin_dir_path(__FILE__) . 'includes/dc-orderplaced.php';
 
