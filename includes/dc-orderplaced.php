@@ -63,12 +63,13 @@ function digicalculator_send_order( $order_id ) {
                 $content_type = function() { return 'text/html'; };
                 add_filter( 'wp_mail_content_type', $content_type );
                 wp_mail( "orders@zogedrukt.nl", 
-                'Digicalulator product in order' , 
-                $mail,
-                '',
-                [__DIR__.'/../'.$order_id.'-'.$item_data['id'].'.html']);
+                    'Digicalulator product in order' , 
+                    $mail,
+                    '',
+                    [__DIR__.'/../'.$order_id.'-'.$item_data['id'].'.html']
+                );
                 remove_filter( 'wp_mail_content_type', 'wpdocs_set_html_mail_content_type' );
-                unlink(__DIR__.'/../'.$order_id.'-'.$item_data['id'].'.html');
+                // unlink(__DIR__.'/../'.$order_id.'-'.$item_data['id'].'.html');
             }
         }
         // return false;
