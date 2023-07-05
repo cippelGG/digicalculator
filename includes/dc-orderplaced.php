@@ -17,7 +17,7 @@ function digicalculator_send_order( $order_id ) {
             error_log(json_encode($order->get_data()));
             error_log(json_encode($item_data));
             error_log(json_encode( json_decode($item_values->get_meta('dc_connect-product_keys'),true) ));
-            if( $item_data['name'] == "Printcalc" ){
+            if( $item_data['name'] == "PrintCalc" ){
                 //Printcalc product;
                 //Build orderticket for mail
                 $variables = [
