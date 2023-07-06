@@ -14,6 +14,7 @@ add_filter('woocommerce_add_to_cart_validation', 'digicalculator_add_to_cart_val
 function digicalculator_add_cart_item_data($cart_item_data, $product_id, $variation_id){
     $product = wc_get_product( $product_id );
     if( $product->get_type() == 'digicalculator' ){
+        // error_log(json_encode($_POST));
         foreach ($_POST as $key => $value) {
             if( $key == 'option' ){
                 foreach ($value as $i => $option) {
@@ -255,6 +256,21 @@ function cart_item_data_to_obj($cart_item_data){
             'key' => __( "Formaat", 'digicalculator' ),
             'value'=> ($cart_item_data['product_size'])
         ];
+    }
+
+
+    if( isset( $cart_item_data["pages"] ) ){ // Look up in options
+        if( $cart_item_data["product_type"] == 'brochures' ){
+            $item_data[] = [
+                'key' => __( "Aantal pagina's incl. omslag", 'digicalculator' ),
+                'value'=> $cart_item_data['pages']." pagina's"
+            ];
+        } else {
+            $item_data[] = [
+                'key' => __( "Aantal pagina's", 'digicalculator' ),
+                'value'=> $cart_item_data['pages']." pagina's"
+            ];
+        }
     }
 
     if( isset( $cart_item_data["papertype_cover"] ) ){ // Look up in options
