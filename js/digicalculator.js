@@ -124,10 +124,11 @@ jQuery(document).ready(function ($) {
         },
         setSize: $t => {
             var mform = $t.parent().parent().parent().attr('group')
+            console.log('setsize',`.${mform} .form-group.product_size_width`) 
             if ($t.val() == 'unique') {
-                $(`.${mform} .form-group.product_size_width, .${mform} .form-group.product_size_height`).show();
+                $(`.${mform} .product_size_width, .${mform} .product_size_height`).show();
             } else {
-                $(`.${mform} .form-group.product_size_width, .${mform} .form-group.product_size_height`).hide();
+                $(`.${mform} .product_size_width, .${mform} .product_size_height`).hide();
             }
         },
         getObj: function () {
@@ -163,10 +164,11 @@ jQuery(document).ready(function ($) {
             },'html');
         },
         setForm: function (id, cb) {
-            if ($('[name="product_size"]').val() != "unique") {
-                var vals = $('[name="product_size"]').val().split('x')
-                $('[name="custom_width"]').val(vals[0])
-                $('[name="custom_height"]').val(vals[1])
+            const cc = $('[name="product_type"]').val();
+            if ($(`.${cc} [name="product_size"]`).val() != "unique") {
+                var vals = $(`.${cc} [name="product_size"]`).val().split('x')
+                $(`.${cc} [name="custom_width"]`).val(vals[0])
+                $(`.${cc} [name="custom_height"]`).val(vals[1])
             }
         },
         priceSelected: function () {
