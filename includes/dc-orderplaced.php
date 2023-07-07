@@ -26,7 +26,7 @@ function digicalculator_send_order( $order_id ) {
                     "date" => date("d-m-Y H:i:s"),
                     "quantity" => $item_data['quantity'],
                     "extref" =>  $item_data['order_id'],
-                    
+                    "deliverydate" => calculateDate(4),
                     "option_rows" => "",
                     "file_links" => "",
 
@@ -77,4 +77,21 @@ function digicalculator_send_order( $order_id ) {
         $order->update_meta_data( '_printcalc_mails_send', true );
         $order->save();
     }
+}
+
+function calculateDate($productiondays = 4){
+    if( date("H") > 14 && date('D') != 'Sat' && date('D') != 'Sun'){
+        $productiondays += 1;
+    }
+    $date = date('Y-m-d');
+    while ($productiondays >= 0) {
+        //Add a day
+        $date = date('Y-m-d', strtotime($date. ' + 1 days'));
+        $day = date('D',strtotime($date));
+        // echo "$date > $day </br>";
+        if( $day != 'Sat' || $day != 'Sun' ){
+            $productiondays -= 1;
+        }
+    }
+    return $date;
 }

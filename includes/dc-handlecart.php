@@ -332,6 +332,12 @@ function cart_item_data_to_obj($cart_item_data){
             }
         }
     }
+    
+    $item_data[] = [
+        'key' => __( 'Verwachte leverdatum', 'digicalculator' ),
+        'value'=> implode('-',array_reverse(explode('-',calculateDate(4))))
+    ]; unset($value); 
+
     return $item_data;
 }
 function cart_obj_to_string($cart_item_data){
