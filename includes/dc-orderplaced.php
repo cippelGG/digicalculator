@@ -80,7 +80,7 @@ function digicalculator_send_order( $order_id ) {
 }
 
 function calculateDate($productiondays = 4){
-    if( date("H") > 14 && date('D') != 'Sat' && date('D') != 'Sun'){
+    if( date("H") >= 12 && date('D') != 'Sat' && date('D') != 'Sun'){
         $productiondays += 1;
     }
     $date = date('Y-m-d');
