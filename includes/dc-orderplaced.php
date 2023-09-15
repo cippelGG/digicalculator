@@ -148,7 +148,7 @@ function digicalculator_send_to_webhook($order_id){
     
             $response = curl_exec($curl);
             curl_close($curl);
-            echo $response;
+            // echo $response;
         }
 
     }
