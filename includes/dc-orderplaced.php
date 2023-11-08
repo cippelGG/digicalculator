@@ -106,7 +106,7 @@ function digicalculator_send_to_webhook($order_id){
                         if( $order_variables['pages'] == "1" ){
                             $order_variables['back_print'] = "";
                         }
-                    } else if( $value->title == "Materiaal" ){
+                    } else if( $value->title == "Materiaal" || $value->title == "Materiaal binnenwerk"){
                         if( strpos($value->value,' mc ') ){
                             $order_variables['mat_type'] = "PS1";
                         } else {
