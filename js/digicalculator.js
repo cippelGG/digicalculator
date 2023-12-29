@@ -1,4 +1,4 @@
-var gettingPrices;
+var gettingPrices, $dc;
 jQuery(document).ready(function ($) {
     $('#dc-form [name="papertype"], #dc-form [name="papertype_cover"]').change(function (e) {
         $dc.setWeights($(e.target).find('option:selected').attr('weights'), e)
@@ -25,14 +25,14 @@ jQuery(document).ready(function ($) {
 
             $dc.getPrices(function (resp) {
                 $('#dc-prices').html(resp);
-                if( $('#dc-prices [missing-fields]').length > 0 ){
+                if ($('#dc-prices [missing-fields]').length > 0) {
                     $('.missing').removeClass('missing');
-                    
+
                     var missingFields = $('#dc-prices [missing-fields]').attr('missing-fields').split(',');
                     for (const element of missingFields) {
                         $(`[name="${element}"]`).addClass('missing')
                     }
-                    $('.missing').change(function(){$(this).removeClass('missing')})
+                    $('.missing').change(function () { $(this).removeClass('missing') })
                 }
                 $('#dc-prices tr td').click(function (e) {
                     $('#dc-prices .selected').removeClass('selected')
@@ -64,7 +64,7 @@ jQuery(document).ready(function ($) {
         $dc.setForm()
     })
 
-    const $dc = {
+    $dc = {
         putPrevData() {
             if (localStorage.dc_prevData != undefined && localStorage.dc_prevData != 'undefined') {
                 const data = JSON.parse(localStorage.dc_prevData);
@@ -124,7 +124,7 @@ jQuery(document).ready(function ($) {
         },
         setSize: $t => {
             var mform = $t.parent().parent().parent().attr('group')
-            console.log('setsize',`.${mform} .form-group.product_size_width`) 
+            console.log('setsize', `.${mform} .form-group.product_size_width`)
             if ($t.val() == 'unique') {
                 $(`.${mform} .product_size_width, .${mform} .product_size_height`).show();
             } else {
@@ -153,6 +153,48 @@ jQuery(document).ready(function ($) {
             return obj;
             //To add: options
         },
+        getQuoteObj: function () {
+            var product_type = $('[name="product_type"]').val(),
+                size = $(`.${product_type} [name="product_size"] option:selected`).text();
+            if ($(`.${product_type} [name="product_size"]`).val() == 'unique') {
+                size = `Afwijkend (${$(`.${product_type} [name="custom_width"]`).val()}mm x ${$(`.${product_type} [name="custom_height"]`).val()}mm)`;
+            }
+            var obj = [
+                { "name": "Type product", "value": $('[name="product_type"] option:selected').text() },
+                { "name": "Planoformaat (B * H mm)", "value": size }
+            ];
+            if (product_type == 'default') {
+                obj.push({ "name": "Bedrukking", "value": $(`.${product_type} [name="printtype"] option:selected`).text() });
+                obj.push({ "name": "Papiersoort", "value": $(`.${product_type} [name="papertype"] option:selected`).text() })
+                obj.push({ "name": "Gewicht", "value": $(`.${product_type} [name="weight"] option:selected`).text() })
+
+                if ($(`.${product_type} [name="option[1]"]`).val() != '') {
+                    obj.push({ "name": "Afwerking", "value": $(`.${product_type} [name="option[1]"] option:selected`).text() })
+                }
+                if ($(`.${product_type} [name="option[4]"]`).val() != '') {
+                    obj.push({ "name": "Luxe afwerking", "value": $(`.${product_type} [name="option[4]"] option:selected`).text() })
+                }
+            } else {
+                obj.push({ "name": "Bedrukking omslag", "value": $(`.${product_type} [name="printtype_cover"] option:selected`).text() })
+                obj.push({ "name": "Papiersoort omslag", "value": $(`.${product_type} [name="papertype_cover"] option:selected`).text() })
+                obj.push({ "name": "Gewicht omslag", "value": $(`.${product_type} [name="weight_cover"] option:selected`).text() })
+
+                obj.push({ "name": "Bedrukking binnenwerk", "value": $(`.${product_type} [name="printtype"] option:selected`).text() })
+                obj.push({ "name": "Papiersoort binnenwerk", "value": $(`.${product_type} [name="papertype"] option:selected`).text() })
+                obj.push({ "name": "Gewicht binnenwerk", "value": $(`.${product_type} [name="weight"] option:selected`).text() })
+                
+                if ($(`.${product_type} [name="option[1]"]`).val() != '') {
+                    obj.push({ "name": "Afwerking", "value": $(`.${product_type} [name="option[1]"] option:selected`).text() })
+                }
+                if ($(`.${product_type} [name="option[2]"]`).val() != '') {
+                    obj.push({ "name": "Luxe afwerking omslag", "value": $(`.${product_type} [name="option[2]"] option:selected`).text() })
+                }
+                if ($(`.${product_type} [name="option[3]"]`).val() != '') {
+                    obj.push({ "name": "Luxe afwerking binnenwerk", "value": $(`.${product_type} [name="option[3]"] option:selected`).text() })
+                }
+            }
+            return obj;
+        },
         getPrices: function (cb) {
             const data = $dc.getObj();
             $.post(dc_ajax.ajaxurl, {
@@ -161,7 +203,7 @@ jQuery(document).ready(function ($) {
                 nextNonce: dc_ajax.nextNonce
             }, function (resp) {
                 cb(resp);
-            },'html');
+            }, 'html');
         },
         setForm: function (id, cb) {
             const cc = $('[name="product_type"]').val();
@@ -174,15 +216,126 @@ jQuery(document).ready(function ($) {
         priceSelected: function () {
             if ($('#dc-prices .selected').length == 1) {
                 $('[name="add-to-cart"]').attr('disabled', null);
+                $('[name="add-to-quotations"]').attr('disabled', null);
                 $('[name="quantity"]').val($('#dc-prices .selected [name="dc-quantity"]').text());
                 return true;
             } else {
                 $('[name="add-to-cart"]').attr('disabled', true);
+                $('[name="add-to-quotations"]').attr('disabled', true);
                 $('[name="quantity"]').val(null);
                 return false;
             }
+        },
+        saveQuotation: function (e) {
+            //popup;
+            if (e != undefined) {
+                e.preventDefault();
+            }
+            dc_openPopup(function ($p) {
+                var desc = $dc.buildDescription(),
+                    product_obj = $dc.getObj();
+                product_obj.url = location.href;
+                product_obj.quantity = $('#dc-prices .selected [name="dc-quantity"]').text().trim();
+                product_obj['dc-picked-quantity'] = product_obj.quantity;
+                product_obj['add-to-cart'] = $('[name="add-to-cart"]').attr('value');
+
+                $p.append(`<p>${desc}.</p>`);
+                $p.append('<p>Vul een referentie voor uw offerte in.</p>');
+                $p.append('<input placeholder="Referentie" id="ext-ref" />')
+                $p.append('<button class="button wp-element-button">Opslaan</button>');
+
+                $p.find('button').off('click').click(function () {
+                    //ajax call to save;
+                    var tdata = { "product_obj": product_obj }
+                    tdata.extref = $p.find('#ext-ref').val();
+                    tdata.product_description = desc;
+                    tdata.quotation_obj = $dc.getQuoteObj();
+                    $.post(dc_ajax.ajaxurl, {
+                        action: 'DC-saveQuotation',
+                        data: tdata,
+                        nextNonce: dc_ajax.nextNonce
+                    }, function (resp) {
+                        //close popup? refresh page?
+                        console.log(resp);
+                        location.reload();
+                    }, 'html');
+                })
+            })
+        },
+        buildDescription: function () {
+            if ($('[name="product_type"]').val() == 'default') {
+                var desc = [
+                    "Standaard",
+                    $(`[group="${$('[name="product_type"]').val()}"] [name="product_size"] option:selected`).text(),
+                    $(`[group="${$('[name="product_type"]').val()}"] [name="weight"] option:selected`).text() + " " + $(`[group="${$('[name="product_type"]').val()}"] [name="papertype"] option:selected`).text(),
+                    $(`[group="${$('[name="product_type"]').val()}"] [name="printtype"] option:selected`).text()
+                ];
+            } else {
+                var desc = [
+                    "Brochure",
+                    $(`[group="${$('[name="product_type"]').val()}"] [name="product_size"] option:selected`).text(),
+                    $(`[group="${$('[name="product_type"]').val()}"] [name="weight"] option:selected`).text() + " " + $(`[group="${$('[name="product_type"]').val()}"] [name="papertype"] option:selected`).text(),
+                    $(`[group="${$('[name="product_type"]').val()}"] [name="printtype"] option:selected`).text(),
+                    "Omslag: " + $(`[group="${$('[name="product_type"]').val()}"] [name="weight_cover"] option:selected`).text() + " " + $(`[group="${$('[name="product_type"]').val()}"] [name="papertype_cover"] option:selected`).text(),
+                    $(`[group="${$('[name="product_type"]').val()}"] [name="printtype_cover"] option:selected`).text()
+                ];
+            }
+            if ($(`[group="${$('[name="product_type"]').val()}"] [name="option[1]"]`).val() != '' && $(`[group="${$('[name="product_type"]').val()}"] [name="option[1]"]`).val() != undefined) {
+                desc.push($(`[group="${$('[name="product_type"]').val()}"] [name="option[1]"] option:selected`).text());
+            }
+            if ($(`[group="${$('[name="product_type"]').val()}"] [name="option[2]"]`).val() != '' && $(`[group="${$('[name="product_type"]').val()}"] [name="option[2]"]`).val() != undefined) {
+                desc.push($(`[group="${$('[name="product_type"]').val()}"] [name="option[2]"] option:selected`).text());
+            }
+            if ($(`[group="${$('[name="product_type"]').val()}"] [name="option[3]"]`).val() != '' && $(`[group="${$('[name="product_type"]').val()}"] [name="option[3]"]`).val() != undefined) {
+                desc.push($(`[group="${$('[name="product_type"]').val()}"] [name="option[3]"] option:selected`).text());
+            }
+            if ($(`[group="${$('[name="product_type"]').val()}"] [name="option[4]"]`).val() != '' && $(`[group="${$('[name="product_type"]').val()}"] [name="option[4]"]`).val() != undefined) {
+                desc.push($(`[group="${$('[name="product_type"]').val()}"] [name="option[4]"] option:selected`).text());
+            }
+            if ($(`[name="versions"]`).val() == 1) {
+                desc.push('1 versie')
+            } else {
+                desc.push($(`[name="versions"]`).val() + ' versies');
+            }
+            return desc.join(', ');
+        },
+        postDcIdToCart: function (id) {
+            $.post(dc_ajax.ajaxurl, {
+                action: 'DC-getQuotation',
+                data: { "id": id },
+                nextNonce: dc_ajax.nextNonce
+            }, function (resp) {
+                //close popup? refresh page?
+                console.log(resp);
+                $.post(resp.url, resp, (r, e) => {
+                    console.log(r);
+                    console.log(e);
+                    location.reload();
+                });
+            }, 'json');
+
         }
     }
 
     $dc.putPrevData();
 })
+
+function dc_openPopup(cb) {
+    var $ = jQuery;
+    var $fade = $("<div id='firstvisit-fade'/>"),
+        $popup = $('<div id="firstvisit-popup"/>');
+    $fade.append($popup)
+
+    $('body').prepend($fade)
+    $popup.close = function () {
+        $fade.fadeOut(300, function () {
+            $fade.remove()
+        })
+    }
+    $fade.click(function (e) {
+        if (e.target == this) {
+            $popup.close()
+        }
+    })
+    cb($popup);
+}

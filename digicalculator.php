@@ -1,11 +1,11 @@
 <?php
 /**
- * @since             1.5.0
+ * @since             1.5.1
  * @package           Digicalculator
  *
  * Plugin Name:       Digicalculator
  * Description:       Special connection with the Digicalculator server.
- * Version:           1.5.1
+ * Version:           1.6.0
  * Author:            Chanan Ippel
  */
 
@@ -14,6 +14,8 @@
  error_reporting(E_ALL);
  ini_set('error_log',plugin_dir_path(__FILE__)."error.log"); // path to server-writable log file
 
+ define('DIGICALCULATOR_BASE', __FILE__);
+ define('DIGICALCULATOR_PATH', plugin_dir_path(__FILE__));
 if (!defined('ABSPATH')) {
     return;
 }
@@ -37,4 +39,6 @@ require_once plugin_dir_path(__FILE__) . 'includes/dc-adminpage.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-handlecart.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-uploadfile.php';
 require_once plugin_dir_path(__FILE__) . 'includes/dc-orderplaced.php';
+require_once plugin_dir_path(__FILE__) . 'includes/dc-saved.php';
+require_once plugin_dir_path(__FILE__) . 'includes/dc-saved-pdf.php';
 

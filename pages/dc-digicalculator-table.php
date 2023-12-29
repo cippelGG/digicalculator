@@ -210,6 +210,11 @@ function dc_digicalculator_table($options){
         
         <input type="hidden" name="quantity" value="1000">
         <div class="dc-button">
+            <?php if ( is_user_logged_in() ) {?> 
+                <?php if ( current_user_can('administrator') ) {?> 
+                    <button class="wp-element-button" name="add-to-quotations" value="" id="add-to-quotations" onclick="$dc.saveQuotation(event)">Sla op als offerte</button> 
+                <?php } ?>
+            <?php } ?>
             <button class="wp-element-button" type="submit" disabled name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" id="dc-order"><?php _e('Add to cart', 'woocommerce'); ?></button>
         </div>
 
