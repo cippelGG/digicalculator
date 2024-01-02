@@ -93,11 +93,11 @@
                     }
                     ?><td><?php echo $key;
                     ?> ex.</td><td><?php 
-                        if( isset($value[2]) ){
-                            echo wc_price(round($value[2],2));
-                        } else {
-                            echo wc_price(round($value[0],2));
-                        }
+                        // if( isset($value[2]) ){
+                        //     echo wc_price(round($value[2],2));
+                        // } else {
+                        // }
+                        echo wc_price(round($value[0],2));
                     
                     ?></td></tr><?php
                 }
