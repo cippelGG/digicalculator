@@ -11,9 +11,10 @@ function dc_digicalculator_table($options){
                     </select> </div>
             </div>
             <hr>
+            <input type="hidden" name="productid" value="<?php echo $product->get_id(); ?>" class="form-control input-sm">    
             <?php foreach ($options as $option) { ?>
                 <div class="dc-mainform <?php echo $option['id']; ?>" group="<?php echo $option['id']; ?>" style="<?php echo $option['id']=='default'?'display: block;':'display: none;';?>">
-                    <div class="form-group product_size_both">
+                <div class="form-group product_size_both">
                         <label class="col-sm-4 col-xs-12 control-label">Planoformaat (B*H mm)</label>
                         <div class="col-sm-8 col-xs-12">
                             <select class="form-control input-sm" name="product_size">

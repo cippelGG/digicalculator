@@ -135,7 +135,11 @@ function dc_savequotation_ajax(){
     $price = 0;
     foreach ($data['prices']['total_costs']['prices'] as $quan => $pricey) {
         if ($quan == $data['product_obj']['quantity']) {
-            $price = $pricey[0];
+            if( isset($pricey[2]) ){
+                $price = $pricey[2];
+            } else {
+                $price = $pricey[0];
+            }
         }
     }
     // Enrich quotation_obj 

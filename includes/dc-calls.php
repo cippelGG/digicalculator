@@ -25,6 +25,7 @@ if (isset($_GET['getPrices'])) {
 }
 
 function getPrices($ajax_post, $json = false){
+    global $wpdb, $product;
     //For the call it should be brochure, and not brochures.
     if( $ajax_post['product_type'] == 'brochures' ){
         $ajax_post['product_type'] = 'brochure';
@@ -73,7 +74,28 @@ function getPrices($ajax_post, $json = false){
 
     $prices = json_decode(curl_exec($curl), true);
     curl_close($curl);
-    // ci_log(json_encode($prices));
+
+    //Check if there's is a discount; First check if there is a product id; 
+    if( isset($ajax_post['productid']) ){
+        $product_id = $ajax_post['productid'];
+        $coupons = $wpdb->get_col("SELECT LOWER(post_title) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type = 'shop_coupon'");
+        foreach ($coupons as $coupon) {
+            $wp_coupon = new WC_Coupon( $coupon );
+            if( $wp_coupon->is_valid() ){
+                //Check if the ID is allowed
+                if( !is_array($wp_coupon->product_ids) || in_array($product_id,$wp_coupon->product_ids) ){
+                    if( !is_array($wp_coupon->excluded_product_ids) || !in_array($product_id,$wp_coupon->excluded_product_ids) ){
+                        //Discount;
+                        foreach ($prices['total_costs']['prices'] as &$single_price) {
+                            # code...
+                            if( $wp_coupon->discount_type == 'percent' )
+                            $single_price[] = $single_price[0]*((100-floatval($wp_coupon->amount))/100);
+                        }
+                    }
+                }
+            }
+        }
+    } //No product ID, no discount
 
     if ($json) {
         return $prices;
@@ -96,7 +118,11 @@ function getPrices($ajax_post, $json = false){
                             $tprices = $prices['total_costs']['prices'];
                             ksort($tprices);
                             foreach ($tprices as $quantity => $values) {
-                                $price = $values[0];
+                                if( isset($values[2]) ){
+                                    $price = $values[2];
+                                } else {
+                                    $price = $values[0];
+                                }
                             ?> <tr>
                             <td name="dc-quantity"><?php echo $quantity; ?></td>
                             <td name="dc-price"><?php echo wc_price(round($price, 2)); ?></td>

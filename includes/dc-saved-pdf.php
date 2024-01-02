@@ -2,13 +2,13 @@
 
 add_filter('init', function ($template) {
     global $wpdb;
-    $table_name = $wpdb->prefix . 'digicalculator_saved';
-    $user_id = wp_get_current_user()->data->ID;
     // require_once(DIGICALCULATOR_PATH . '/plugins/fpdf186/fpdf.php');
     require_once(DIGICALCULATOR_PATH . '/plugins/dompdf/autoload.inc.php');
     //Get URL;
     $p4 = array_reverse(array_diff(explode('/', home_url(add_query_arg(null, null))), ['']));
     if ($p4[1] == 'pdf') {
+        $table_name = $wpdb->prefix . 'digicalculator_saved';
+        $user_id = wp_get_current_user()->data->ID;
         // include DIGICALCULATOR_PATH."/pages/dc-digicalculator-quotation.php";
         ob_start();
         $id = $p4[0];
