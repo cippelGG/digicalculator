@@ -118,17 +118,15 @@ function getPrices($ajax_post, $json = false){
                             $tprices = $prices['total_costs']['prices'];
                             ksort($tprices);
                             foreach ($tprices as $quantity => $values) {
-                                if( isset($values[2]) ){
-                                    $price = $values[2];
-                                } else {
-                                    $price = $values[0];
-                                }
                             ?> <tr>
-                            <td name="dc-quantity"><?php echo $quantity; ?></td>
-                            <td name="dc-price"><?php echo wc_price(round($price, 2)); ?></td>
-                        </tr> <?php
-                            }
-                                ?> </table>
+                            <td name="dc-quantity"><?php echo $quantity; ?></td> <?php
+                                if( isset($values[2]) ){
+                                    ?> <td name="dc-price"><s style="font-size: 0.8em;"><?php echo wc_price(round($values[0], 2)); ?></s> <?php echo wc_price(round($values[2], 2)); ?></td> <?php
+                                } else {
+                                   ?> <td name="dc-price"><?php echo wc_price(round($values[0], 2)); ?></td> <?php
+                                }?>
+                            </tr> <?php
+                            } ?> </table>
                 <!-- <p> <?php echo json_encode($prices); ?> </p>
                 <p> <?php echo json_encode($ajax_post); ?> </p> -->
             <?php
