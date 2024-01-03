@@ -83,13 +83,17 @@ function getPrices($ajax_post, $json = false){
             $wp_coupon = new WC_Coupon( $coupon );
             if( $wp_coupon->is_valid() ){
                 //Check if the ID is allowed
-                if( !is_array($wp_coupon->product_ids) || in_array($product_id,$wp_coupon->product_ids) ){
-                    if( !is_array($wp_coupon->excluded_product_ids) || !in_array($product_id,$wp_coupon->excluded_product_ids) ){
+                if( !is_array($wp_coupon->get_product_ids()) || in_array($product_id,$wp_coupon->get_product_ids()) ){
+                    if( !is_array($wp_coupon->get_excluded_product_ids()) || !in_array($product_id,$wp_coupon->get_excluded_product_ids()) ){
                         //Discount;
                         foreach ($prices['total_costs']['prices'] as &$single_price) {
                             # code...
-                            if( $wp_coupon->discount_type == 'percent' )
-                            $single_price[] = $single_price[0]*((100-floatval($wp_coupon->amount))/100);
+                            if( $wp_coupon->get_discount_type() == 'percent' ) {
+                                $single_price[] = $single_price[0]*((100-floatval($wp_coupon->get_amount()))/100);
+                            } else {
+                                $single_price[] = $single_price[0]-$wp_coupon->get_amount();
+
+                            }
                         }
                     }
                 }
