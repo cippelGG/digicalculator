@@ -37,6 +37,18 @@ function getPrices($ajax_post, $json = false){
             unset($ajax_post[$key]);
         }
     }
+    if( $ajax_post['product_type'] == 'brochure' ){
+        if( isset( $ajax_post['option[2]'] ) ){
+            $ajax_post['option_cover[1]'] = $ajax_post['option[2]'];
+            unset($ajax_post['option[2]']);
+        }
+        if( isset( $ajax_post['option[3]'] ) ){
+            $ajax_post['option_inner[1]'] = $ajax_post['option[3]'];
+            unset($ajax_post['option[3]']);
+        }
+    }
+
+    echo "<script>console.log(".json_encode($ajax_post).");</script>";
 
     //Check if the dataset is complete;
     $missing = []; $toCheck = ['printtype','papertype','weight','printtype_cover','papertype_cover','weight_cover'];
@@ -82,6 +94,7 @@ function getPrices($ajax_post, $json = false){
         foreach ($coupons as $coupon) {
             $wp_coupon = new WC_Coupon( $coupon );
             if( $wp_coupon->is_valid() ){
+                // var_dump($wp_coupon);
                 //Check if the ID is allowed
                 if( !is_array($wp_coupon->get_product_ids()) || in_array($product_id,$wp_coupon->get_product_ids()) ){
                     if( !is_array($wp_coupon->get_excluded_product_ids()) || !in_array($product_id,$wp_coupon->get_excluded_product_ids()) ){
@@ -92,8 +105,17 @@ function getPrices($ajax_post, $json = false){
                                 $single_price[] = $single_price[0]*((100-floatval($wp_coupon->get_amount()))/100);
                             } else {
                                 $single_price[] = $single_price[0]-$wp_coupon->get_amount();
-
                             }
+                        }
+                    }
+                } else if( count($wp_coupon->get_product_categories()) == 0 && count($wp_coupon->get_excluded_product_categories()) == 0 ){
+                    //always allowed;
+                    foreach ($prices['total_costs']['prices'] as &$single_price) {
+                        # code...
+                        if( $wp_coupon->get_discount_type() == 'percent' ) {
+                            $single_price[] = $single_price[0]*((100-floatval($wp_coupon->get_amount()))/100);
+                        } else {
+                            $single_price[] = $single_price[0]-$wp_coupon->get_amount();
                         }
                     }
                 }

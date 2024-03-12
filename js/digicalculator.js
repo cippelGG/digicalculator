@@ -126,9 +126,9 @@ jQuery(document).ready(function ($) {
             var mform = $t.parent().parent().parent().attr('group')
             console.log('setsize', `.${mform} .form-group.product_size_width`)
             if ($t.val() == 'unique') {
-                $(`.${mform} .product_size_width, .${mform} .product_size_height`).show();
+                $(`.${mform} .product_size_width, .${mform} .product_size_height`).attr('style',''); 
             } else {
-                $(`.${mform} .product_size_width, .${mform} .product_size_height`).hide();
+                $(`.${mform} .product_size_width, .${mform} .product_size_height`).attr('style','display:none !important;');
             }
         },
         getObj: function () {

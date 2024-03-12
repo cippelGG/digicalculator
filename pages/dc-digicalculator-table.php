@@ -170,7 +170,7 @@ function dc_digicalculator_table($options){
                         </div>
                         <div class="form-group"> <label class="col-sm-4 col-xs-12 control-label">Luxe afwerking omslag</label>
                             <div class="col-sm-8 col-xs-12">
-                                <select class="form-control input-sm" name="option[2]">
+                                <select class="form-control input-sm" name="option_cover[1]">
                                     <option value="">Selecteer het gewenste afwerkingstype</option>
                                     <?php foreach ($option['options']['finish_cover'] as $finishCover) {
                                         echo '<option value="' . $finishCover['id'] . '">' . $finishCover['name'] .'</option>';
@@ -180,7 +180,7 @@ function dc_digicalculator_table($options){
                         </div>
                         <div class="form-group"> <label class="col-sm-4 col-xs-12 control-label">Luxe afwerking binnenwerk</label>
                             <div class="col-sm-8 col-xs-12">
-                                <select class="form-control input-sm" name="option[3]">
+                                <select class="form-control input-sm" name="option_inner[1]">
                                     <option value="">Selecteer het gewenste afwerkingstype</option>
                                     <?php foreach ($option['options']['finish_center'] as $finish) {
                                         echo '<option value="' . $finish['id'] . '">' . $finish['name'] .'</option>';
@@ -212,9 +212,7 @@ function dc_digicalculator_table($options){
         <input type="hidden" name="quantity" value="1000">
         <div class="dc-button">
             <?php if ( is_user_logged_in() ) {?> 
-                <?php if ( current_user_can('administrator') ) {?> 
                     <button class="wp-element-button" name="add-to-quotations" value="" id="add-to-quotations" onclick="$dc.saveQuotation(event)">Sla op als offerte</button> 
-                <?php } ?>
             <?php } ?>
             <button class="wp-element-button" type="submit" disabled name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>" id="dc-order"><?php _e('Add to cart', 'woocommerce'); ?></button>
         </div>

@@ -2,8 +2,7 @@
 
 add_action('admin_menu', 'dcAdminPage');
 // Add a new top level menu link to the ACP
-function dcAdminPage()
-{
+function dcAdminPage() {
   add_menu_page(
     'Digicalculator Admin', // Title of the page
     'Digicalculator', // Text to show on the menu link
@@ -14,7 +13,6 @@ function dcAdminPage()
   );
 };
 
-function digicalculator_adminPage()
-{
+function digicalculator_adminPage() {
   require_once plugin_dir_path(__FILE__) . '../pages/mfp-first-acp-page.php';
 }
