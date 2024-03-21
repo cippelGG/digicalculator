@@ -48,7 +48,7 @@ function getPrices($ajax_post, $json = false){
         }
     }
 
-    echo "<script>console.log(".json_encode($ajax_post).");</script>";
+    // echo "<script>console.log(".json_encode($ajax_post).");</script>";
 
     //Check if the dataset is complete;
     $missing = []; $toCheck = ['printtype','papertype','weight','printtype_cover','papertype_cover','weight_cover'];
