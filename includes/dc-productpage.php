@@ -16,7 +16,7 @@ add_action('wp_enqueue_scripts', function () {
         'dc_ajax',
         array( 
             'ajaxurl'   => admin_url('admin-ajax.php'),
-            'nextNonce' => wp_create_nonce('myajax-next-nonce')
+            'nextNonce' => wp_create_nonce('dc-next-nonce')
         )
     );
     wp_enqueue_style(
@@ -34,7 +34,7 @@ function dc_getprices_ajax(){
     error_reporting(E_ALL);    
 
     $nonce = $_POST['nextNonce'];
-    if ( ! wp_verify_nonce( $nonce, 'myajax-next-nonce' ) ) {
+    if ( ! wp_verify_nonce( $nonce, 'dc-next-nonce' ) ) {
         die ( 'Busted!' );
     }
     $data = ( $_POST['data']);

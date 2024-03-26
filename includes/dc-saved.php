@@ -121,7 +121,7 @@ function dc_savequotation_ajax(){
     $user = get_user_meta( $user_id ); 
 
     $nonce = $_POST['nextNonce'];
-    if (!wp_verify_nonce($nonce, 'myajax-next-nonce')) {
+    if (!wp_verify_nonce($nonce, 'dc-next-nonce')) {
         die('Busted!');
     }
     $data = ($_POST['data']);
@@ -179,7 +179,7 @@ function dc_getquotation_ajax(){
     global $wpdb;
     $user_id = wp_get_current_user()->data->ID;
     $nonce = $_POST['nextNonce'];
-    if (!wp_verify_nonce($nonce, 'myajax-next-nonce')) {
+    if (!wp_verify_nonce($nonce, 'dc-next-nonce')) {
         die('Busted!');
     }
 
