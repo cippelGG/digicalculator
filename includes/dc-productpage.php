@@ -23,10 +23,10 @@ add_action('wp_enqueue_scripts', function () {
         'digicalculator',
         plugin_dir_url(__FILE__) . '../assets/style.min.css'
     );
-}, 99);
+}, 20);
 
-add_action( 'wp_ajax_DC-getPrices', 'dc_getprices_ajax' );
 add_action( 'wp_ajax_nopriv_DC-getPrices', 'dc_getprices_ajax' );
+add_action( 'wp_ajax_DC-getPrices', 'dc_getprices_ajax' );
 
 function dc_getprices_ajax(){
     ini_set('display_errors', 1);

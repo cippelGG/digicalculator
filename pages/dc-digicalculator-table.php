@@ -3,7 +3,8 @@ function dc_digicalculator_table($options){
     global $product;
 ?>
     <form id="dc-form" class="cart" action="<?php echo esc_url(apply_filters('woocommerce_add_to_cart_form_action', $product->get_permalink())); ?>" method="post" enctype='multipart/form-data'>
-        <div class="row">
+    <?php echo wp_nonce_field( 'dc-next-nonce', '_wpnonce', true, true ); ?>    
+    <div class="row">
             <div class="form-group"> <label class="col-sm-4 col-xs-12 control-label">Type product</label>
                 <div class="col-sm-8 col-xs-12"> <select class="form-control input-sm" name="product_type">
                         <option value="default">Standaard</option>
