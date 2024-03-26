@@ -26,7 +26,7 @@ function dc_uploadfile_ajax_pond(){
     
     $nonce = $_POST['nextNonce'];
     if ( ! wp_verify_nonce( $nonce, 'dc-next-nonce' ) ) {
-        die ( 'Busted!' );
+        die ( 'Busted! a04' );
     }
     $cart = WC()->cart->cart_contents;
     $cart_item_id = $_POST['cart_item_id'];
@@ -87,7 +87,7 @@ function dc_uploadfile_ajax(){
 
     $nonce = $_POST['nextNonce'];
     if ( ! wp_verify_nonce( $nonce, 'dc-next-nonce' ) ) {
-        die ( 'Busted!' );
+        die ( 'Busted! a05' );
     }
     $cart = WC()->cart->cart_contents;
     $cart_item_id = $_POST['cart_item_id'];

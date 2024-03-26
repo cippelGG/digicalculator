@@ -122,7 +122,7 @@ function dc_savequotation_ajax(){
 
     $nonce = $_POST['nextNonce'];
     if (!wp_verify_nonce($nonce, 'dc-next-nonce')) {
-        die('Busted!');
+        die('Busted! a02');
     }
     $data = ($_POST['data']);
     $data['prices'] = getPrices($data['product_obj'], true);
@@ -180,7 +180,7 @@ function dc_getquotation_ajax(){
     $user_id = wp_get_current_user()->data->ID;
     $nonce = $_POST['nextNonce'];
     if (!wp_verify_nonce($nonce, 'dc-next-nonce')) {
-        die('Busted!');
+        die('Busted! a03');
     }
 
     $table_name = $wpdb->prefix . 'digicalculator_saved';
