@@ -35,7 +35,7 @@ function dc_getprices_ajax(){
 
     $nonce = $_POST['nextNonce'];
     if ( ! wp_verify_nonce( $nonce, 'dc-next-nonce' ) ) {
-        // die ( 'Busted! a01' );
+        // die ( 'Busted! a01' );d
     }
     $data = ( $_POST['data']);
  
