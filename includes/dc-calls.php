@@ -46,8 +46,15 @@ function getPrices($ajax_post, $json = false){
             $ajax_post['option_inner[1]'] = $ajax_post['option[3]'];
             unset($ajax_post['option[3]']);
         }
+        
+        if( isset( $ajax_post['option_inner'] ) ){
+            $ajax_post['option_inner[1]'] = $ajax_post['option_inner']['1'];
+        }
+        if( isset( $ajax_post['option_cover'] ) ){
+            $ajax_post['option_cover[1]'] = $ajax_post['option_cover']['1'];
+        }
     }
-
+    ci_log("getPrices: ".json_encode( $ajax_post ) );
     // echo "<script>console.log(".json_encode($ajax_post).");</script>";
 
     //Check if the dataset is complete;

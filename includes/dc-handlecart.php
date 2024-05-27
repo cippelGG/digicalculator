@@ -1,7 +1,6 @@
 <?php
 
 function digicalculator_add_to_cart_validation($passed, $product_id, $quantity, $variation_id = null){
-    
     if (1 == 2) {
         $passed = false;
         wc_add_notice(__('Your name is a required field.', 'digicalculator'), 'error');
@@ -23,15 +22,12 @@ function digicalculator_add_cart_item_data($cart_item_data, $product_id, $variat
             } else {
                 $cart_item_data[$key] = $value;
             }
-            # code...
         }
         $cart_item_data['addresses'] = 1;
         $cart_item_data['width'] = 1;
         $cart_item_data['height'] = 1;
         $cart_item_data['digicalculator_product'] = true;
         $cart_item_data['make_unique'] = date("YmdHis");
-
-        ci_log(json_encode($cart_item_data));
     }
 
     return $cart_item_data;
@@ -162,8 +158,6 @@ add_action( 'woocommerce_checkout_create_order_line_item', 'digicalculator_add_v
 //This adds the variables to the backend in a styled manner
 function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatted_meta, $item ) {
     foreach($formatted_meta as $key => $meta) {
-        ci_log(json_encode($meta));
-        ci_log("Meta");
         if($meta->key == 'dc_connect-product_keys') {
             $meta->display_key = 'Samenstelling';
             
