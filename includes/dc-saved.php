@@ -61,7 +61,7 @@ function digicalculator_endpoint_content(){
                     $row = $user_quotes[$i];
                     ?>
                         <tr>
-                            <td>PC<?php echo $row->id; ?></td>
+                            <td><?php echo "PC".date('ym')."-".str_pad($row->id, 5, "0", STR_PAD_LEFT);?></td>
                             <td><?php echo wp_date('d F Y',strtotime($row->date_created)); ?></td>
                             <td><?php echo $row->ext_ref; ?></td>
                             <td><?php echo wc_price(round($row->price, 2)); ?></td>

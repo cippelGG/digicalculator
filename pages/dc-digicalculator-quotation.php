@@ -20,6 +20,17 @@
         width: 210mm;
         height: 297mm;
     }
+    #headerimg {
+        width: 70mm;
+        top: 15mm;
+        left: 26mm;
+        position: absolute;
+    }
+    #headeraddress {
+        top: 18mm;
+        right: 26mm;
+        position: absolute;
+    }
     .address {
         position: absolute;
         top: 61mm;
@@ -41,6 +52,25 @@
     }
 </style>
 <body>
+    <img id="headerimg" src="<?php echo $quotedata->img ?>"/>
+    <!-- <?php echo $quotedata->img ?> -->
+    <div id="headeraddress">
+        <h6>Zogedrukt.nl</h6>
+        <p>
+            Zuidzijde 131-133 <br/>
+            2977 XE Goudriaan <br/><br/>
+
+            info@zogedrukt.nl <br>
+            www.zogedrukt.nl <br/><br/>
+
+            BTW: NL 00 663 8557 B01 <br>
+            KvK: 2301 8002 <br/><br/>
+
+            ABC Finance B.V. <br>
+            DE02 3707 0060 0119 8936 03 <br>
+            BIC Code: DEUTDEDKXXX 
+        </p>
+    </div>
     <!-- <?php echo json_encode($user); ?> -->
     <br/>
     <!-- <?php echo json_encode($quotedata); ?> -->
@@ -57,7 +87,7 @@
         <table>
             <tr>
                 <td>Offertenr.</td>
-                <td>PC<?php echo $id; ?></td>
+                <td><?php echo "PC".date('ym')."-".str_pad($id, 5, "0", STR_PAD_LEFT); ?></td>
             </tr>
             <tr>
                 <td>Datum</td>
