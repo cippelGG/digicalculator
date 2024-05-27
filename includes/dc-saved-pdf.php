@@ -32,8 +32,8 @@ add_filter('init', function ($template) {
         $page = ob_get_contents();
         ob_end_clean();
         
-        echo $page;
-        die;
+        // echo $page;
+        // die;
 
         // instantiate and use the dompdf class
         $options = new Dompdf\Options();

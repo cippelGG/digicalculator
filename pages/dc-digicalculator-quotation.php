@@ -52,7 +52,8 @@
     }
 </style>
 <body>
-    <img id="headerimg" src="<?php echo $quotedata->img ?>"/>
+    <!-- <img id="headerimg" src="<?php echo $quotedata->img ?>"/> -->
+    <img id="headerimg" src="https://zogedrukt.nl/wp-content/uploads/ZoGedrukt-logo.png"/>
     <!-- <?php echo $quotedata->img ?> -->
     <div id="headeraddress">
         <h6>Zogedrukt.nl</h6>
