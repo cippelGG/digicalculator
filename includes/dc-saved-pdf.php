@@ -3,7 +3,7 @@
 add_filter('init', function ($template) {
     global $wpdb;
     // require_once(DIGICALCULATOR_PATH . '/plugins/fpdf186/fpdf.php');
-    require_once(DIGICALCULATOR_PATH . '/plugins/dompdf/autoload.inc.php');
+    // require_once(DIGICALCULATOR_PATH . '/plugins/dompdf/autoload.inc.php');
     //Get URL;
     $p4 = array_reverse(array_diff(explode('/', home_url(add_query_arg(null, null))), ['']));
     if ($p4[1] == 'pdf') {

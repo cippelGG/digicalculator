@@ -316,7 +316,7 @@ function cart_item_data_to_obj($cart_item_data){
             if( $cart_item_data['product_type'] == 'brochures' ){
                 if( $i == 1 ){ $d = 'Afwerking brochure'; }
                 if( $i == 2 ){ $d = 'Luxe afwerking omslag'; }
-                if( $i == 3 ){ $d = 'Luxe afwerking binnenwwerk'; }
+                if( $i == 3 ){ $d = 'Luxe afwerking binnenwerk'; }
             }
             if( $value != false ){
                 $item_data[] = [
@@ -326,6 +326,12 @@ function cart_item_data_to_obj($cart_item_data){
             }
         }
     }
+    if( isset( $cart_item_data["versions"] ) ){ // Look up in options
+        $item_data[] = [
+            'key' => __( "Versies", 'digicalculator' ),
+            'value'=> $cart_item_data['versions']
+        ];
+    } 
     
     $item_data[] = [
         'key' => __( 'Verwachte leverdatum', 'digicalculator' ),
