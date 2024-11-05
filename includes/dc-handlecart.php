@@ -157,7 +157,12 @@ add_action( 'woocommerce_checkout_create_order_line_item', 'digicalculator_add_v
 
 //This adds the variables to the backend in a styled manner
 function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatted_meta, $item ) {
+    global $post;
+    $order = new WC_Order($post->ID);
+    //to escape # from order id 
+    $order_id = trim(str_replace('#', '', $order->get_order_number()));
     foreach($formatted_meta as $key => $meta) {
+        
         if($meta->key == 'dc_connect-product_keys') {
             $meta->display_key = 'Samenstelling';
             
@@ -168,6 +173,7 @@ function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatte
                 $html .= '<b>' . $value['title'] . '</b>' . ' - ' . $value['value'] . '<br/>';
             }
             $meta->display_value = $html;
+            
         } else if($meta->key == 'dc_connect-files') {
             $meta->display_key = 'Bestanden';
             $html = "<br/>";
@@ -177,8 +183,17 @@ function digicalculator_connect_wc_order_item_get_formatted_meta_data( $formatte
                 $html .= "<a href='{$root}/wp-content/uploads/dc-uploads/{$value['file']}' target='_blank'>{$value['name']}</a><br/>";
             }
             $meta->display_value = $html;
+
+            //add send top optimalisation button
+            $formatted_meta[] = (object) [
+                "key" => "dc_connect-actions",
+                "display_key"  => "Acties",
+                "display_value"  => "<a target=\"_blank\" href=\"".admin_url('admin-ajax.php')."?action=DC-resendxml&order_id=".$order_id." \">Opnieuw naar optimalisatie</a>"
+            ];
         }
+        ci_log(json_encode($formatted_meta));
     }
+    
 
     //When the order is added to the shoppingcart, mail the customersupport 
     

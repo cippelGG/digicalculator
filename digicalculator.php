@@ -1,11 +1,11 @@
 <?php
 /**
- * @since             1.7.1
+ * @since             1.7.2
  * @package           Digicalculator
  *
  * Plugin Name:       Digicalculator
  * Description:       Special connection with the Digicalculator server.
- * Version:           1.7.2
+ * Version:           1.8.0
  * Author:            Chanan Ippel
  */
 

@@ -17,9 +17,9 @@ function digicalculator_send_order($order_id) {
         foreach ($order->get_items(['line_item']) as  $item_key => $item_values) {
             // get data to check if it's a Digicalc product;
             $item_data = $item_values->get_data();
-            error_log(json_encode($order->get_data()));
-            error_log(json_encode($item_data));
-            error_log(json_encode(json_decode($item_values->get_meta('dc_connect-product_keys'), true)));
+            // error_log(json_encode($order->get_data()));
+            // error_log(json_encode($item_data));
+            // error_log(json_encode(json_decode($item_values->get_meta('dc_connect-product_keys'), true)));
             if ($item_values->get_meta('dc_connect-product_keys') != null) {
                 //Printcalc product;
                 //Build orderticket for mail
@@ -118,18 +118,9 @@ function digicalculator_send_to_webhook($order_id){
                 $files = json_decode($meta_data->value,true);
             }
         }
+        $xmls = [];
         foreach ($files as $file) {
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'http://swh.grootsgedrukt.nl:51080/digicalculator',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => "<Xgram><WEBBEST>
+            $txml = "<Xgram><WEBBEST>
                     <LR_LINK Value=\"{$file['url']}\" /> 
                     <VELD_13_VAL Value=\"3\" /><VELD_15_VAL Value=\"3\" /><VELD_17_VAL Value=\"3\" /><VELD_19_VAL Value=\"3\" />
                     <VELD_23_VAL Value=\"".implode(', ',$desc)."\" />
@@ -140,17 +131,30 @@ function digicalculator_send_to_webhook($order_id){
                     <VELD_33_VAL Value=\"{$order_variables['height']}\" />
                     <ORD_LINK Value=\"ZGDRKT-{$order_id}-{$line_data['id']}-{$file['nth']}\" />
                     <SWITCH_VAL Value=\"digicalc\" />
-                </WEBBEST></Xgram>",
+                </WEBBEST></Xgram>";
+            $xmls[] = $txml;
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'http://swh.grootsgedrukt.nl:51080/digicalculator',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => $txml,
                 CURLOPT_HTTPHEADER => array( 
                     'Content-Type: application/xml'
                 ),
             ));
-    
+
             $response = curl_exec($curl);
             curl_close($curl);
+            ci_log( "Switch response: ".strval($response) );
             // echo $response;
         }
-
+        return $xmls;
     }
 }
 

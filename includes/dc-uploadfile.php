@@ -19,6 +19,10 @@ add_action('wp_ajax_nopriv_DC-deletefile', 'dc_deletefile_ajax');
 
 add_action('wp_ajax_DC-uploadfile-pond', 'dc_uploadfile_ajax_pond');
 add_action('wp_ajax_nopriv_DC-uploadfile-pond', 'dc_uploadfile_ajax_pond');
+
+add_action('wp_ajax_DC-resendxml', 'dc_resendxml_ajax');
+add_action('wp_ajax_nopriv_DC-resendxml', 'dc_resendxml_ajax');
+
 function dc_uploadfile_ajax_pond(){
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -161,4 +165,14 @@ function dc_deletefile_ajax(){
     }
     WC()->cart->cart_contents[$cart_item_id] = $cart[$cart_item_id];
     WC()->cart->set_session();
+}
+
+function dc_resendxml_ajax(){
+    $id = $_GET['order_id'];
+    $xmls = digicalculator_send_to_webhook($id);
+    echo "<pre>";
+    foreach ($xmls as $xml) {
+        echo htmlentities($xml);
+    }
+    echo "</pre>";
 }

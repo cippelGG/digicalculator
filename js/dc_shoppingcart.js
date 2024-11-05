@@ -190,3 +190,11 @@ function refresh_shoppingcart_when_done($){
         }, 500)
     }
 }
+
+function dc_resendxml(){
+    $ = jQuery;
+    var url = `${dc_ajax.ajaxurl}?action=DC-resendxml`;
+    $.get(url,function(r){
+        console.log(r)
+    })
+}
